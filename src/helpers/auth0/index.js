@@ -38,8 +38,8 @@ class Auth0Helper {
   handleAuthentication(props) {
     console.log("this is the props ==>> ", props);
 
-    localStorage.setItem("id_token", "secret token");
-    history.replace("/dashboard");
+    localStorage.setItem("id_token", props);
+    // history.replace("/dashboard");
   }
   setSession(authResult) {
     // Set the time that the access token will expire at
@@ -55,10 +55,13 @@ class Auth0Helper {
 
   logout() {
     // Clear access token and ID token from local storage
-    localStorage.removeItem("access_token");
+    // localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    // localStorage.removeItem("expires_at");
     // navigate to the home route
+
+    notification("success", "Logged Out SuccessFully");
+
     history.replace("/");
   }
 

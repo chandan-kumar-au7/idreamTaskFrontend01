@@ -8,6 +8,8 @@ import Scrollbars from "../../../components/utility/customScrollBar";
 import SignInStyleWrapper from "./signin.style";
 import Firebase from "../../../helpers/firebase";
 import FirebaseLogin from "../../../components/firebase";
+import Auth0 from "../../../helpers/auth0";
+import { notification } from "../../../components";
 
 import axios from "axios";
 
@@ -55,6 +57,7 @@ class SignIn extends Component {
       // console.log("Error while requesting backend => ", error.message);
 
       this.error = error.message;
+      notification("error", error.message);
 
       setTimeout(() => {
         this.state.error = null;
@@ -62,7 +65,11 @@ class SignIn extends Component {
     }
 
     if (returnedData) {
-      localStorage.setItem("loginToken", returnedData.data.Logintoken);
+      // localStorage.setItem("loginToken", returnedData.data.Logintoken);
+      Auth0.handleAuthentication(returnedData.data.Logintoken);
+
+      notification("success", returnedData.data.message);
+
       this.success = returnedData.data.message;
       const userlogintoken = returnedData.data.Logintoken;
 

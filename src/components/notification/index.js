@@ -7,9 +7,9 @@ import "./notification.css";
 let notification = null;
 Notification.newInstance(
   {
-    style: { top: 60, right: 50, transform: "translateX(0px)" }
+    style: { top: 60, right: 50, transform: "translateX(0px)" },
   },
-  n => (notification = n)
+  (n) => (notification = n)
 );
 const createNotification = (
   type = "info",
@@ -22,7 +22,7 @@ const createNotification = (
     warning: "warning",
     error: "error",
     success: "success",
-    info: "info"
+    info: "info",
   };
   const options = {
     content: (
@@ -35,7 +35,7 @@ const createNotification = (
     ),
     style: {},
     closable: true,
-    duration: 4
+    duration: 4,
   };
   notification.notice(options);
 };
