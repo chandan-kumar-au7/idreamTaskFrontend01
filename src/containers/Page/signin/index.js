@@ -19,6 +19,7 @@ import { GoogleLogin } from "react-google-login";
 let returnedData;
 
 const { login } = authAction;
+
 class SignIn extends Component {
   state = {
     redirectToReferrer: false,
@@ -153,7 +154,7 @@ class SignIn extends Component {
 
 export default connect(
   (state) => ({
-    isLoggedIn: state.Auth.idToken !== null ? true : false,
+    isLoggedIn: state.Auth.loginToken !== null ? true : false,
   }),
   { login }
 )(SignIn);

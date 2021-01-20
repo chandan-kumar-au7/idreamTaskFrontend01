@@ -1,7 +1,7 @@
-import Auth0Lock from 'auth0-lock';
-import history from './history';
-import { Auth0Config } from '../../settings';
-import { notification } from '../../components';
+import Auth0Lock from "auth0-lock";
+import history from "./history";
+import { Auth0Config } from "../../settings";
+import { notification } from "../../components";
 
 class Auth0Helper {
   isValid = Auth0Config.clientID && Auth0Config.domain;
@@ -21,50 +21,52 @@ class Auth0Helper {
         )
       : null;
     if (!this.lock) {
-      notification('error', 'Lock Error');
+      notification("error", "Lock Error");
     }
-    this.lock.on('authenticated', authResult => {
+    this.lock.on("authenticated", (authResult) => {
       if (authResult && authResult.accessToken) {
         if (window) {
-          localStorage.setItem('id_token', authResult.accessToken);
+          localStorage.setItem("id_token", authResult.accessToken);
         }
         handleLogin();
       } else {
-        notification('error', 'Wrong mail or password');
+        notification("error", "Wrong mail or password");
       }
     });
     this.lock.show();
   }
   handleAuthentication(props) {
-    localStorage.setItem('id_token', 'secret token');
-    history.replace('/dashboard');
+    console.log("this is the props ==>> ", props);
+
+    localStorage.setItem("id_token", "secret token");
+    history.replace("/dashboard");
   }
   setSession(authResult) {
     // Set the time that the access token will expire at
     let expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+    localStorage.setItem("access_token", authResult.accessToken);
+    localStorage.setItem("id_token", authResult.idToken);
+    localStorage.setItem("expires_at", expiresAt);
     // navigate to the home route
-    history.replace('/');
+    history.replace("/");
   }
 
   logout() {
     // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
     // navigate to the home route
-    history.replace('/');
+    history.replace("/");
   }
 
   isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time
     return (
-      new Date().getTime() < JSON.parse(localStorage.getItem('expires_at'))
+      new Date().getTime() < JSON.parse(localStorage.getItem("expires_at"))
     );
   }
 }
