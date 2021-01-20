@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import signinImg from "../../../images/signup.svg";
@@ -8,7 +8,6 @@ import Scrollbars from "../../../components/utility/customScrollBar";
 import SignInStyleWrapper from "./signin.style";
 import Firebase from "../../../helpers/firebase";
 import FirebaseLogin from "../../../components/firebase";
-import Auth0 from "../../../helpers/auth0";
 
 import axios from "axios";
 
@@ -20,18 +19,23 @@ import { GoogleLogin } from "react-google-login";
 let returnedData;
 
 const { login } = authAction;
+class SignIn extends Component {
+  state = {
+    redirectToReferrer: false,
+    username: null,
+    success: null,
+    error: null,
+  };
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.isLoggedIn !== nextProps.isLoggedIn &&
+      nextProps.isLoggedIn === true
+    ) {
+      this.setState({ redirectToReferrer: true });
+    }
+  }
 
-const SignIn = () => {
-  const [redirectToReferrer] = useState(false);
-  const [error, seterror] = useState(null);
-  const [success, setsuccess] = useState(null);
-
-  // let history = useHistory();
-
-  // const [username, setusername] = useState("demo@gmail.com");
-  // const [password, setpassword] = useState("demodemo");
-
-  const responseGoogle = async (response) => {
+  responseGoogle = async (response) => {
     try {
       returnedData = await axios({
         method: "post",
@@ -44,100 +48,109 @@ const SignIn = () => {
       refreshTokenSetup(response);
 
       setTimeout(() => {
-        setsuccess(null);
+        this.state.success = null;
       }, 10000);
     } catch (error) {
       // console.log("Error while requesting backend => ", error.message);
 
-      seterror(error.message);
+      this.error = error.message;
 
       setTimeout(() => {
-        seterror(null);
+        this.state.error = null;
       }, 10000);
     }
 
     if (returnedData) {
       localStorage.setItem("loginToken", returnedData.data.Logintoken);
-      setsuccess(returnedData.data.message);
-      // Auth0.login(() => login(returnedData.data.Logintoken));
-    }
+      this.success = returnedData.data.message;
+      const userlogintoken = returnedData.data.Logintoken;
 
+      this.props.history.push("/dashboard");
+    }
+  };
+
+  handleLogin = () => {
+    const { login } = this.props;
+    const { username } = this.state;
+    login({ username });
+    this.props.history.push("/dashboard");
+  };
+
+  onChangeUsername = (event) => this.setState({ username: event.target.value });
+  onChangePassword = (event) => this.setState({ password: event.target.value });
+  render() {
     const from = { pathname: "/dashboard" };
+    const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {
       return <Redirect to={from} />;
     }
-  };
 
-  // useEffect(() => {
-  // const userLoginToken = localStorage.getItem("loginToken");
-  // if (userLoginToken) {
-  //   setredirectToReferrer(true);
-  // }
-  // }, []);
-
-  return (
-    <SignInStyleWrapper className="mateSignInPage">
-      <div className="mateSignInPageImgPart">
-        <div className="mateSignInPageImg">
-          <img src={signinImg} alt="Kiwi standing on oval" />
-        </div>
-      </div>
-
-      <div className="mateSignInPageContent">
-        <div className="mateSignInPageLink">
-          <Link to="#">
-            <button className="mateSignInPageLinkBtn active" type="button">
-              Login
-            </button>
-          </Link>
-        </div>
-        <Scrollbars style={{ height: "100%" }}>
-          <div className="mateSignInPageGreet">
-            <h1>Hello User,</h1>
-            <p>
-              Welcome to Mate Admin, Please Login with your personal account
-              information.
-            </p>
+    return (
+      <SignInStyleWrapper className="mateSignInPage">
+        <div className="mateSignInPageImgPart">
+          <div className="mateSignInPageImg">
+            <img src={signinImg} alt="Kiwi standing on oval" />
           </div>
+        </div>
 
-          <div className="mateLoginSubmitText">
-            <span>
-              * Username Demo@gmail.com, password , demo and click on any
-              button.
-            </span>
+        <div className="mateSignInPageContent">
+          <div className="mateSignInPageLink">
+            <Link to="#">
+              <button className="mateSignInPageLinkBtn active" type="button">
+                Login
+              </button>
+            </Link>
           </div>
-          <div className="mateLoginOtherBtn">
-            <div
-              className="mateLoginOtherBtnWrap"
-              // onClick={handleLogin}
-            >
-              <GoogleLogin
-                className="btnGooglePlus"
-                clientId="472028388531-pbk8thqe6nr57vmu9hisuh85s4j1vdsd.apps.googleusercontent.com"
-                buttonText="Login"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-              >
-                <IntlMessages id="page.signInGooglePlus" />
-              </GoogleLogin>
+          <Scrollbars style={{ height: "100%" }}>
+            <div className="mateSignInPageGreet">
+              <h1>Hello User,</h1>
+              <p>
+                Welcome to Mate Admin, Please Login with your personal account
+                information.
+              </p>
             </div>
 
-            <div className="mateLoginOtherBtnWrap">
-              {Firebase.isValid && <FirebaseLogin login={this.handleLogin} />}
+            <div className="mateLoginSubmitText">
+              <span>
+                * Username Demo@gmail.com, password , demo and click on any
+                button.
+              </span>
             </div>
-          </div>
-          {error !== null && (
-            <div style={{ color: "red", marginTop: "10px" }}>*{error}</div>
-          )}
-          {success !== null && (
-            <div style={{ color: "green", marginTop: "10px" }}>*{success}</div>
-          )}
-        </Scrollbars>
-      </div>
-    </SignInStyleWrapper>
-  );
-};
+            <div className="mateLoginOtherBtn">
+              <div className="mateLoginOtherBtnWrap" onClick={this.handleLogin}>
+                <GoogleLogin
+                  className="btnGooglePlus"
+                  clientId="472028388531-pbk8thqe6nr57vmu9hisuh85s4j1vdsd.apps.googleusercontent.com"
+                  buttonText="Login"
+                  onSuccess={this.responseGoogle}
+                  onFailure={this.responseGoogle}
+                >
+                  <IntlMessages id="page.signInGooglePlus" />
+                </GoogleLogin>
+              </div>
+
+              <div className="mateLoginOtherBtnWrap">
+                {Firebase.isValid && <FirebaseLogin login={this.handleLogin} />}
+              </div>
+            </div>
+            {this.state.error !== null && (
+              <div style={{ color: "red", marginTop: "10px" }}>
+                *{this.state.error}
+              </div>
+            )}
+            {this.state.success !== null && (
+              <div style={{ color: "green", marginTop: "10px" }}>
+                *{this.state.success}
+              </div>
+            )}
+          </Scrollbars>
+        </div>
+      </SignInStyleWrapper>
+    );
+  }
+}
+
 export default connect(
   (state) => ({
     isLoggedIn: state.Auth.idToken !== null ? true : false,

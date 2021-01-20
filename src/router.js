@@ -6,24 +6,22 @@ import App from "./containers/App";
 import Auth0 from "./helpers/auth0";
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
-  console.log(isLoggedIn),
-  (
-    <Route
-      {...rest}
-      render={(props) =>
-        isLoggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/signin",
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
-    />
-  )
+  // console.log(isLoggedIn),
+  <Route
+    {...rest}
+    render={(props) =>
+      isLoggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/signin",
+            state: { from: props.location },
+          }}
+        />
+      )
+    }
+  />
 );
 
 const PublicRoutes = ({ history, isLoggedIn }) => (
