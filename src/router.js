@@ -6,21 +6,24 @@ import App from "./containers/App";
 import Auth0 from "./helpers/auth0";
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      isLoggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/signin",
-            state: { from: props.location },
-          }}
-        />
-      )
-    }
-  />
+  console.log(isLoggedIn),
+  (
+    <Route
+      {...rest}
+      render={(props) =>
+        isLoggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/signin",
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  )
 );
 
 const PublicRoutes = ({ history, isLoggedIn }) => (
@@ -42,6 +45,8 @@ const PublicRoutes = ({ history, isLoggedIn }) => (
           Auth0.handleAuthentication(props);
         }}
       />
+
+      {console.log("this is b ==> ", isLoggedIn)}
       <RestrictedRoute
         path="/dashboard"
         component={App}

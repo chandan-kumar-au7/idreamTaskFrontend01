@@ -8,6 +8,7 @@ import Scrollbars from "../../../components/utility/customScrollBar";
 import SignInStyleWrapper from "./signin.style";
 import Firebase from "../../../helpers/firebase";
 import FirebaseLogin from "../../../components/firebase";
+import Auth0 from "../../../helpers/auth0";
 
 import axios from "axios";
 
@@ -18,39 +19,55 @@ import { GoogleLogin } from "react-google-login";
 
 let returnedData;
 
-const responseGoogle = async (response) => {
-  // console.log(" data ===>>> ", response.profileObj);
-
-  refreshTokenSetup(response);
-
-  returnedData = await axios({
-    method: "post",
-    url: "http://localhost:4000/user/googlelogin",
-    data: response,
-  });
-
-  console.log("returnedData ===>>> ", returnedData);
-
-  if (returnedData) {
-    localStorage.setItem("loginToken", returnedData.data.Logintoken);
-  }
-};
-
 const { login } = authAction;
 
 const SignIn = () => {
   const [redirectToReferrer] = useState(false);
+  const [error, seterror] = useState(null);
+  const [success, setsuccess] = useState(null);
 
   // let history = useHistory();
 
   // const [username, setusername] = useState("demo@gmail.com");
   // const [password, setpassword] = useState("demodemo");
 
-  // const handleLogin = () => {
-  //   console.log("clicked");
-  // };
+  const responseGoogle = async (response) => {
+    try {
+      returnedData = await axios({
+        method: "post",
+        url: "http://localhost:4000/user/googlelogin",
+        data: response,
+      });
+      console.log("returnedData ===>>> ", returnedData);
 
-  const from = { pathname: "/dashboard" };
+      // getting error if token got experied
+      refreshTokenSetup(response);
+
+      setTimeout(() => {
+        setsuccess(null);
+      }, 10000);
+    } catch (error) {
+      // console.log("Error while requesting backend => ", error.message);
+
+      seterror(error.message);
+
+      setTimeout(() => {
+        seterror(null);
+      }, 10000);
+    }
+
+    if (returnedData) {
+      localStorage.setItem("loginToken", returnedData.data.Logintoken);
+      setsuccess(returnedData.data.message);
+      // Auth0.login(() => login(returnedData.data.Logintoken));
+    }
+
+    const from = { pathname: "/dashboard" };
+
+    if (redirectToReferrer) {
+      return <Redirect to={from} />;
+    }
+  };
 
   // useEffect(() => {
   // const userLoginToken = localStorage.getItem("loginToken");
@@ -58,10 +75,6 @@ const SignIn = () => {
   //   setredirectToReferrer(true);
   // }
   // }, []);
-
-  if (redirectToReferrer) {
-    return <Redirect to={from} />;
-  }
 
   return (
     <SignInStyleWrapper className="mateSignInPage">
@@ -114,6 +127,12 @@ const SignIn = () => {
               {Firebase.isValid && <FirebaseLogin login={this.handleLogin} />}
             </div>
           </div>
+          {error !== null && (
+            <div style={{ color: "red", marginTop: "10px" }}>*{error}</div>
+          )}
+          {success !== null && (
+            <div style={{ color: "green", marginTop: "10px" }}>*{success}</div>
+          )}
         </Scrollbars>
       </div>
     </SignInStyleWrapper>
