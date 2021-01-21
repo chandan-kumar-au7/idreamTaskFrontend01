@@ -36,7 +36,7 @@ class Auth0Helper {
     this.lock.show();
   }
   handleAuthentication(props) {
-    console.log("this is the props ==>> ", props);
+    // console.log("this is the props ==>> ", props);
 
     localStorage.setItem("id_token", props);
     // history.replace("/dashboard");
@@ -46,11 +46,11 @@ class Auth0Helper {
     let expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
-    localStorage.setItem("access_token", authResult.accessToken);
+    // localStorage.setItem("access_token", authResult.accessToken);
     localStorage.setItem("id_token", authResult.idToken);
-    localStorage.setItem("expires_at", expiresAt);
+    // localStorage.setItem("expires_at", expiresAt);
     // navigate to the home route
-    history.replace("/");
+    history.replace("/signin");
   }
 
   logout() {
@@ -62,7 +62,7 @@ class Auth0Helper {
 
     notification("success", "Logged Out SuccessFully");
 
-    history.replace("/");
+    history.replace("/signin");
   }
 
   isAuthenticated() {

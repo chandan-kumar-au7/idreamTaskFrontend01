@@ -29,6 +29,7 @@ class SignIn extends Component {
     success: null,
     error: null,
   };
+
   componentWillReceiveProps(nextProps) {
     if (
       this.props.isLoggedIn !== nextProps.isLoggedIn &&
@@ -46,6 +47,7 @@ class SignIn extends Component {
         data: response,
       });
       console.log("returnedData ===>>> ", returnedData);
+      Auth0.handleAuthentication(returnedData.data.Logintoken);
 
       // getting error if token got experied
       refreshTokenSetup(response);
@@ -63,29 +65,17 @@ class SignIn extends Component {
         this.state.error = null;
       }, 10000);
     }
-
-    if (returnedData) {
-      // localStorage.setItem("loginToken", returnedData.data.Logintoken);
-      Auth0.handleAuthentication(returnedData.data.Logintoken);
-
-      notification("success", returnedData.data.message);
-
-      this.success = returnedData.data.message;
-      const userlogintoken = returnedData.data.Logintoken;
-
-      this.props.history.push("/dashboard");
-    }
   };
 
   handleLogin = () => {
     const { login } = this.props;
-    const { username } = this.state;
-    login({ username });
+
     this.props.history.push("/dashboard");
   };
 
   onChangeUsername = (event) => this.setState({ username: event.target.value });
   onChangePassword = (event) => this.setState({ password: event.target.value });
+
   render() {
     const from = { pathname: "/dashboard" };
     const { redirectToReferrer } = this.state;

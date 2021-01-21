@@ -44,7 +44,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => (
         }}
       />
 
-      {console.log("this is b ==> ", isLoggedIn)}
+      {/* {console.log("this is b ==> ", isLoggedIn)} */}
       <RestrictedRoute
         path="/dashboard"
         component={App}
