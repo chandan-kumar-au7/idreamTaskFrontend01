@@ -16,7 +16,7 @@ const data = {
       pointBackgroundColor: "rgba(153, 102, 255, 1)",
       pointHoverBackgroundColor: "rgba(153, 102, 255, 1)",
       pointHoverBorderColor: "rgba(153, 102, 255, 1)",
-      yAxisID: "y-axis-2"
+      yAxisID: "y-axis-2",
     },
     {
       type: "bar",
@@ -31,7 +31,7 @@ const data = {
         "rgba(54, 162, 235, 0.5)",
         "rgba(153, 102, 255, 0.5)",
         "rgba(255, 159, 64, 0.5)",
-        "rgba(201, 203, 207, 0.5)"
+        "rgba(201, 203, 207, 0.5)",
       ],
       hoverBackgroundColor: [
         "rgba(255, 99, 132, 0.6)",
@@ -40,7 +40,7 @@ const data = {
         "rgba(54, 162, 235, 0.6)",
         "rgba(153, 102, 255, 0.6)",
         "rgba(255, 159, 64, 0.6)",
-        "rgba(201, 203, 207, 0.6)"
+        "rgba(201, 203, 207, 0.6)",
       ],
       hoverBorderColor: [
         "rgb(255, 99, 132)",
@@ -48,31 +48,31 @@ const data = {
         "rgb(75, 192, 192)",
         "rgb(54, 162, 235)",
         "rgb(153, 102, 255)",
-        "rgb(201, 203, 207)"
+        "rgb(201, 203, 207)",
       ],
-      yAxisID: "y-axis-1"
-    }
-  ]
+      yAxisID: "y-axis-1",
+    },
+  ],
 };
 
 const options = {
   responsive: true,
   tooltips: {
-    mode: "label"
+    mode: "label",
   },
   elements: {
     line: {
-      fill: false
-    }
+      fill: false,
+    },
   },
   scales: {
     xAxes: [
       {
         display: true,
         gridLines: {
-          display: false
-        }
-      }
+          display: false,
+        },
+      },
     ],
     yAxes: [
       {
@@ -81,8 +81,8 @@ const options = {
         position: "left",
         id: "y-axis-1",
         gridLines: {
-          display: false
-        }
+          display: false,
+        },
       },
       {
         type: "linear",
@@ -90,11 +90,11 @@ const options = {
         position: "right",
         id: "y-axis-2",
         gridLines: {
-          display: false
-        }
-      }
-    ]
-  }
+          display: false,
+        },
+      },
+    ],
+  },
 };
 
 const plugins = [
@@ -102,7 +102,7 @@ const plugins = [
     afterDraw: (chartInstance, easing) => {
       const ctx = chartInstance.chart.ctx;
       ctx.fillText("", 100, 100);
-    }
-  }
+    },
+  },
 ];
 export { data, options, plugins };

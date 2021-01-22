@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import LayoutWrapper from '../../components/utility/layoutWrapper';
+import React, { Component } from "react";
+import LayoutWrapper from "../../components/utility/layoutWrapper";
 import {
   Row,
   OneThirdColumn,
   TwoThirdColumn,
   FullColumn,
   HalfColumn,
-} from '../../components/utility/rowColumn';
-import InstagramFeed from './InstagramFeed';
-import Contacts from '../Contact/contactBox';
-import Statistics from './Statistics';
-import Transaction from './Transactions';
-import SalesProgress from './SaleProgress';
-import SalesStats from './Sales';
-import SaleChart from './SaleCharts';
-import TableWidget from './TableWidget';
-import CircularWidget from './CircularWidgets';
-import Visitors from './Visitors';
-import { data, data2, data3 } from './Transactions/config';
+} from "../../components/utility/rowColumn";
+import InstagramFeed from "./InstagramFeed";
+import Contacts from "../Contact/contactBox";
+import Statistics from "./Statistics";
+import Transaction from "./Transactions";
+import SalesProgress from "./SaleProgress";
+import SalesStats from "./Sales";
+import SaleChart from "./SaleCharts";
+import TableWidget from "./TableWidget";
+import CircularWidget from "./CircularWidgets";
+import Visitors from "./Visitors";
+import { data, data2, data3 } from "./Transactions/config";
 
 class Widget extends Component {
   render() {
@@ -25,10 +25,12 @@ class Widget extends Component {
       <LayoutWrapper>
         <Row>
           <HalfColumn>
+            {/* this is for stacked column chart.js component   */}
             <SalesStats title="Monthly Sale Analytics" stretched />
           </HalfColumn>
 
           <HalfColumn>
+            {/* this is for right side statics component  */}
             <Statistics title="Statistics" stretched />
           </HalfColumn>
         </Row>

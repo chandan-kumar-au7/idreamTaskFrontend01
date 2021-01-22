@@ -46,7 +46,7 @@ class SignIn extends Component {
         url: "http://localhost:4000/user/googlelogin",
         data: response,
       });
-      console.log("returnedData ===>>> ", returnedData);
+      // console.log("returnedData ===>>> ", returnedData);
       Auth0.handleAuthentication(returnedData.data.Logintoken);
 
       // getting error if token got experied
@@ -67,11 +67,10 @@ class SignIn extends Component {
     }
   };
 
-  handleLogin = () => {
-    const { login } = this.props;
-
-    this.props.history.push("/dashboard");
-  };
+  // handleLogin = () => {
+  // const { login } = this.props;
+  // this.props.history.push("/dashboard");
+  // };
 
   onChangeUsername = (event) => this.setState({ username: event.target.value });
   onChangePassword = (event) => this.setState({ password: event.target.value });

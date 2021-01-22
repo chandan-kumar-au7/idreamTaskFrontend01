@@ -18,7 +18,7 @@ import MUIPProvider from "../../components/uielements/materialUiPicker/momentPro
 import { rtl } from "../../settings/withDirection";
 
 import axios from "axios";
-import Auth0 from "../../helpers/auth0";
+// import Auth0 from "../../helpers/auth0";
 import { notification } from "../../components";
 
 import Main, { Root, AppFrame } from "./style";
@@ -34,26 +34,27 @@ class App extends Component {
     const loginToken = localStorage.getItem("id_token");
 
     try {
+      // console.log("document.location.hostname ", document.location.hostname);
       varified = await axios({
         method: "post",
-        url: "http://localhost:4000/user/varifytoken",
+        url: `http://${document.location.hostname}:4000/user/varifytoken`,
         data: {
           loginToken: loginToken,
         },
       });
 
-      console.log("varified01 ==>> ", varified);
+      // console.log("varified01 ==>> ", varified);
       if (!varified.data.message) {
         this.props.history.push("/signin");
         notification("error", "You need to sign in again !");
       }
-      Auth0.handleAuthentication(loginToken);
+      // Auth0.handleAuthentication(loginToken);
       if (varified.data.message) {
         this.success = varified.data.message;
         notification("success", varified.data.message);
       }
     } catch (error) {
-      console.log("err ----- ", error);
+      // console.log("err ----- ", error);
       this.props.history.push("/signin");
     }
   }
@@ -91,6 +92,7 @@ class App extends Component {
             <Topbar {...options} />
             {anchor === "left" ? <Sidebar {...options} anchor={anchor} /> : ""}
 
+            {/* this is responsible for graph only ** header and asidebar is saperate from this  */}
             <Main
               className={
                 view !== "TabLandView" && view !== "DesktopView"

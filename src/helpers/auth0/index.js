@@ -36,16 +36,16 @@ class Auth0Helper {
     this.lock.show();
   }
   handleAuthentication(props) {
-    // console.log("this is the props ==>> ", props);
+    console.log("this is the props ==>> ", props);
 
     localStorage.setItem("id_token", props);
-    // history.replace("/dashboard");
+    history.push("/dashboard");
   }
   setSession(authResult) {
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify(
-      authResult.expiresIn * 1000 + new Date().getTime()
-    );
+    // let expiresAt = JSON.stringify(
+    //   authResult.expiresIn * 1000 + new Date().getTime()
+    // );
     // localStorage.setItem("access_token", authResult.accessToken);
     localStorage.setItem("id_token", authResult.idToken);
     // localStorage.setItem("expires_at", expiresAt);

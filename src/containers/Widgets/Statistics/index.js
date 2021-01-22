@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Async from '../../../helpers/asyncComponent';
+import Async from "../../../helpers/asyncComponent";
 import WidgetBox from "../WidgetBox";
 
-const MixedData = props => (
+const MixedData = (props) => (
   <Async
-    load={import(/* webpackChunkName: "ReactChart2-mix" */ './mix')}
-    componentProps={props}
+    load={import(/* webpackChunkName: "ReactChart2-mix" */ "./mix")}
+    // componentProps={props}
   />
 );
 

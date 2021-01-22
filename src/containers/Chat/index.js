@@ -16,17 +16,17 @@ class Chat extends Component {
         {FirebaseHelper.isValid ? (
           <ChatView height={height} view={view} />
         ) : (
-            <HelperText
-              imgSrc={NoAPIKey}
-              text="Please Enter Your API Key in the `src/settings/index.js`"
-            />
-          )}
+          <HelperText
+            imgSrc={NoAPIKey}
+            text="Please Enter Your API Key in the `src/settings/index.js`"
+          />
+        )}
       </ChatViewWrapper>
     );
   }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
   ...state.App,
-  scrollHeight: state.App.scrollHeight
+  scrollHeight: state.App.scrollHeight,
 }))(Chat);
