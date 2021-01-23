@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { GoogleApiWrapper } from 'google-maps-react';
-import { posts } from '../config.js';
-import { googleConfig } from '../../../../settings';
-import mapActions from '../../../../redux/map/actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { GoogleApiWrapper } from "google-maps-react";
+import { posts } from "../config.js";
+import { googleConfig } from "../../../../settings";
+import mapActions from "../../../../redux/map/actions";
 
 const { changeMapSkin } = mapActions;
 
@@ -19,11 +19,11 @@ class BasicMap extends Component {
       infoWindow: null,
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.mapSkinsForBasicDemo !== this.props.mapSkinsForBasicDemo) {
-      this.changeSkins(nextProps.mapSkinsForBasicDemo);
-    }
-  }
+  // componentDidUpdate(nextProps) {
+  //   if (nextProps.mapSkinsForBasicDemo !== this.props.mapSkinsForBasicDemo) {
+  //     this.changeSkins(nextProps.mapSkinsForBasicDemo);
+  //   }
+  // }
   loadMap(element) {
     const { google, mapSkinsForBasicDemo } = this.props;
     if (!element || !google) return;
@@ -34,7 +34,7 @@ class BasicMap extends Component {
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: google.maps.ControlPosition.TOP_RIGHT,
-        mapTypeIds: ['styled_map'],
+        mapTypeIds: ["styled_map"],
       },
     });
 
@@ -46,11 +46,11 @@ class BasicMap extends Component {
     try {
       const styledMapType = new google.maps.StyledMapType(
         JSON.parse(
-          mapSkins[mapSkinsForBasicDemo ? mapSkinsForBasicDemo : 'silver']
+          mapSkins[mapSkinsForBasicDemo ? mapSkinsForBasicDemo : "silver"]
         )
       );
-      this.mateMap.mapTypes.set('styled_map', styledMapType);
-      this.mateMap.setMapTypeId('styled_map');
+      this.mateMap.mapTypes.set("styled_map", styledMapType);
+      this.mateMap.setMapTypeId("styled_map");
     } catch (err) {}
   }
   render() {
@@ -60,7 +60,7 @@ class BasicMap extends Component {
         {loaded ? (
           <div
             className="googleMap"
-            style={{ height: '650px', width: '100%' }}
+            style={{ height: "650px", width: "100%" }}
             ref={this.loadMap}
           />
         ) : (
@@ -76,7 +76,7 @@ const WrappedContainer = GoogleApiWrapper({
 })(BasicMap);
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.Maps,
   }),
   { changeMapSkin }

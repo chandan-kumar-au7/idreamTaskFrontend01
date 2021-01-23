@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { GoogleApiWrapper } from 'google-maps-react';
-import { connect } from 'react-redux';
-import { posts } from '../config.js';
-import { googleConfig } from '../../../../settings';
-import mapActions from '../../../../redux/map/actions';
-import { Marker, MarkerInfoWindow } from '../marker';
+import React, { Component } from "react";
+import { GoogleApiWrapper } from "google-maps-react";
+import { connect } from "react-redux";
+import { posts } from "../config.js";
+import { googleConfig } from "../../../../settings";
+import mapActions from "../../../../redux/map/actions";
+import { Marker, MarkerInfoWindow } from "../marker";
 
 const { changeMapSkin } = mapActions;
 
@@ -20,11 +20,11 @@ class BasicMarkerMap extends Component {
       infoWindow: null,
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.mapSkinsForCustomDemo !== this.props.mapSkinsForCustomDemo) {
-      this.changeSkins(nextProps.mapSkinsForCustomDemo);
-    }
-  }
+  // componentDidUpdate(nextProps) {
+  //   if (nextProps.mapSkinsForCustomDemo !== this.props.mapSkinsForCustomDemo) {
+  //     this.changeSkins(nextProps.mapSkinsForCustomDemo);
+  //   }
+  // }
   loadMap(element) {
     const { google } = this.props;
     if (!element || !google) return;
@@ -38,9 +38,9 @@ class BasicMarkerMap extends Component {
         position: google.maps.ControlPosition.TOP_RIGHT,
       },
     });
-    const RichMarker = require('js-rich-marker');
-    const InfoBubble = require('js-info-bubble');
-    posts.forEach(post => {
+    const RichMarker = require("js-rich-marker");
+    const InfoBubble = require("js-info-bubble");
+    posts.forEach((post) => {
       const marker = RichMarker
         ? new RichMarker.RichMarker({
             map: this.mateBasicMarkerMap,
@@ -63,7 +63,7 @@ class BasicMarkerMap extends Component {
         minHeight: 260,
         shadowStyle: 0,
         padding: 10,
-        backgroundColor: '#ffffff',
+        backgroundColor: "#ffffff",
         position: new google.maps.LatLng(post.lat, post.lng),
         borderRadius: 4,
         arrowSize: 10,
@@ -73,11 +73,11 @@ class BasicMarkerMap extends Component {
         hideCloseButton: false,
         arrowStyle: 0,
         // pixelOffset: ,
-        backgroundClassName: 'infowindow-backdropClass',
+        backgroundClassName: "infowindow-backdropClass",
         content: MarkerInfoWindow(post),
       });
 
-      marker.addListener('click', function() {
+      marker.addListener("click", function () {
         if (self.infowindow) {
           self.infowindow.close();
         }
@@ -96,11 +96,11 @@ class BasicMarkerMap extends Component {
     try {
       const styledMapType = new google.maps.StyledMapType(
         JSON.parse(
-          mapSkins[mapSkinsForCustomDemo ? mapSkinsForCustomDemo : 'standard']
+          mapSkins[mapSkinsForCustomDemo ? mapSkinsForCustomDemo : "standard"]
         )
       );
-      this.mateBasicMarkerMap.mapTypes.set('styled_map', styledMapType);
-      this.mateBasicMarkerMap.setMapTypeId('styled_map');
+      this.mateBasicMarkerMap.mapTypes.set("styled_map", styledMapType);
+      this.mateBasicMarkerMap.setMapTypeId("styled_map");
     } catch (err) {}
   }
   render() {
@@ -110,7 +110,7 @@ class BasicMarkerMap extends Component {
         {loaded ? (
           <div
             className="googleMap"
-            style={{ height: '650px', width: '100%' }}
+            style={{ height: "650px", width: "100%" }}
             ref={this.loadMap}
           />
         ) : (
@@ -126,7 +126,7 @@ const WrappedContainer = GoogleApiWrapper({
 })(BasicMarkerMap);
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.Maps,
   }),
   { changeMapSkin }

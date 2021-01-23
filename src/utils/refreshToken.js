@@ -9,7 +9,7 @@ export const refreshTokenSetup = (res) => {
     refreshTiming = (newAuthRes.expires_in || 3600 - 5 * 60) * 1000;
     console.log("newAuthRes:", newAuthRes);
     // saveUserToken(newAuthRes.access_token);  <-- save new token
-    localStorage.setItem("id_token", newAuthRes.id_token);
+    // localStorage.setItem("id_token", newAuthRes.id_token);
 
     // Setup the other timer after the first one
     setTimeout(refreshToken, refreshTiming);

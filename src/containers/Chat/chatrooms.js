@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import AddNewUser from './addNewUser';
-import InputSearch from '../../components/uielements/inputSearch';
-import actions from '../../redux/chat/actions';
-import { timeDifference } from '../../helpers/utility';
-import HelperText from '../../components/utility/helper-text';
-import Scrollbars from '../../components/utility/customScrollBar';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import AddNewUser from "./addNewUser";
+import InputSearch from "../../components/uielements/inputSearch";
+import actions from "../../redux/chat/actions";
+import { timeDifference } from "../../helpers/utility";
+import HelperText from "../../components/utility/helper-text";
+import Scrollbars from "../../components/utility/customScrollBar";
 import {
   ChatSidebar,
   ComposeBtn,
@@ -13,21 +13,21 @@ import {
   SidebarSearchBox,
   UserListsWrapper,
   Icon,
-} from './message.style';
+} from "./message.style";
 const { setSelectedChatroom, toggleCompose } = actions;
 
 class ChatRooms extends Component {
   state = {
-    value: '',
+    value: "",
     searchedChatRooms: this.props.chatRooms,
   };
-  componentWillReceiveProps(nextProps) {
-    this.setState({ value: '', searchedChatRooms: nextProps.chatRooms });
-  }
-  onSearch = value => {
+  // componentDidUpdate(nextProps) {
+  //   this.setState({ value: '', searchedChatRooms: nextProps.chatRooms });
+  // }
+  onSearch = (value) => {
     const searchedChatRooms = value ? [] : this.props.chatRooms;
     if (value) {
-      this.props.chatRooms.forEach(chatRoom => {
+      this.props.chatRooms.forEach((chatRoom) => {
         if (
           chatRoom.otherUserInfo.name
             .toLowerCase()
@@ -53,10 +53,10 @@ class ChatRooms extends Component {
       const { name, profileImageUrl } = otherUserInfo;
       const selected = selectedChatRoom.id === chatRoom.id;
       const style = {
-        background: selected ? '#f7f7f7' : '',
+        background: selected ? "#f7f7f7" : "",
         // margin: '2px 2px 2px 0',
       };
-      const selectChatroom = event => {
+      const selectChatroom = (event) => {
         event.stopPropagation();
         if (!selected) {
           setSelectedChatroom(chatRoom);
@@ -127,15 +127,12 @@ function mapStateToProps(state) {
   const { users, chatRooms, openCompose } = state.Chat;
   return {
     users,
-    chatRooms: chatRooms.filter(chatRoom => chatRoom.lastMessageTime > 0),
+    chatRooms: chatRooms.filter((chatRoom) => chatRoom.lastMessageTime > 0),
     selectedChatRoom: {},
     openCompose,
   };
 }
-export default connect(
-  mapStateToProps,
-  {
-    setSelectedChatroom,
-    toggleCompose,
-  }
-)(ChatRooms);
+export default connect(mapStateToProps, {
+  setSelectedChatroom,
+  toggleCompose,
+})(ChatRooms);

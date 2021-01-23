@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { XYPlot, XAxis, YAxis, LineSeries, makeWidthFlexible } from "react-vis";
-import "./candlestick.scss";
+import "./candlestick.css";
 import Candlestick from "./candlestick";
 
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
 export default class Example extends Component {
   state = {
-    data: this.props.datas
+    data: this.props.datas,
   };
 
   render() {
@@ -26,13 +26,19 @@ export default class Example extends Component {
             <LineSeries
               color="#FF9833"
               className="dashed-example-line"
-              data={[{ x: 0, y: 25 }, { x: 30, y: 25 }]}
+              data={[
+                { x: 0, y: 25 },
+                { x: 30, y: 25 },
+              ]}
             />
             <LineSeries
               color="#1A3177"
               className="dashed-example-line"
               opacity={0.3}
-              data={[{ x: 0, y: 75 }, { x: 30, y: 75 }]}
+              data={[
+                { x: 0, y: 75 },
+                { x: 30, y: 75 },
+              ]}
             />
             <Candlestick
               colorType="literal"

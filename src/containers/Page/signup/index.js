@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import signinImg from '../../../images/signin.svg';
-import fbBtnSvg from '../../../images/facebook-app-symbol.svg';
-import gpBtnSvg from '../../../images/google-plus.svg';
-import authBtnSvg from '../../../images/auth0.svg';
-import TextField from '../../../components/uielements/textfield';
-import Scrollbars from '../../../components/utility/customScrollBar';
-import Button from '../../../components/uielements/button';
-import authAction from '../../../redux/auth/actions';
-import IntlMessages from '../../../components/utility/intlMessages';
-import SignUpStyleWrapper from './signup.style';
-import Auth0 from '../../../helpers/auth0/index';
-import Firebase from '../../../helpers/firebase';
-import FirebaseLogin from '../../../components/firebase';
-import { Checkbox } from './signup.style';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import signinImg from "../../../images/signin.svg";
+import fbBtnSvg from "../../../images/facebook-app-symbol.svg";
+import gpBtnSvg from "../../../images/google-plus.svg";
+import authBtnSvg from "../../../images/auth0.svg";
+import TextField from "../../../components/uielements/textfield";
+import Scrollbars from "../../../components/utility/customScrollBar";
+import Button from "../../../components/uielements/button";
+import authAction from "../../../redux/auth/actions";
+import IntlMessages from "../../../components/utility/intlMessages";
+import SignUpStyleWrapper from "./signup.style";
+import Auth0 from "../../../helpers/auth0/index";
+import Firebase from "../../../helpers/firebase";
+import FirebaseLogin from "../../../components/firebase";
+import { Checkbox } from "./signup.style";
 
 const { login } = authAction;
 
@@ -22,18 +22,18 @@ class SignUp extends Component {
   state = {
     redirectToReferrer: false,
   };
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.isLoggedIn !== nextProps.isLoggedIn &&
-      nextProps.isLoggedIn === true
-    ) {
-      this.setState({ redirectToReferrer: true });
-    }
-  }
+  // componentDidUpdate(nextProps) {
+  //   if (
+  //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
+  //     nextProps.isLoggedIn === true
+  //   ) {
+  //     this.setState({ redirectToReferrer: true });
+  //   }
+  // }
   handleLogin = () => {
     const { login } = this.props;
     login();
-    this.props.history.push('/dashboard');
+    this.props.history.push("/dashboard");
   };
   render() {
     return (
@@ -57,7 +57,7 @@ class SignUp extends Component {
               </button>
             </Link>
           </div>
-          <Scrollbars style={{ height: '100%' }}>
+          <Scrollbars style={{ height: "100%" }}>
             <div className="mateSignInPageGreet">
               <h1>Its Free, Join Us</h1>
               <p>
@@ -180,7 +180,7 @@ class SignUp extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     isLoggedIn: state.Auth.idToken !== null ? true : false,
   }),
   { login }

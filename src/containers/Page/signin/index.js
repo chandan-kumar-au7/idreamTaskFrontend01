@@ -14,7 +14,7 @@ import { notification } from "../../../components";
 import axios from "axios";
 
 // refresh token
-import { refreshTokenSetup } from "../../../utils/refreshToken";
+// import { refreshTokenSetup } from "../../../utils/refreshToken";
 
 import { GoogleLogin } from "react-google-login";
 
@@ -28,16 +28,17 @@ class SignIn extends Component {
     username: null,
     success: null,
     error: null,
+    isAuthenticated: false,
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.isLoggedIn !== nextProps.isLoggedIn &&
-      nextProps.isLoggedIn === true
-    ) {
-      this.setState({ redirectToReferrer: true });
-    }
-  }
+  // componentDidUpdate(nextProps) {
+  //   if (
+  //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
+  //     nextProps.isLoggedIn === true
+  //   ) {
+  //     this.setState({ redirectToReferrer: true });
+  //   }
+  // }
 
   responseGoogle = async (response) => {
     try {
@@ -46,11 +47,13 @@ class SignIn extends Component {
         url: "http://localhost:4000/user/googlelogin",
         data: response,
       });
-      // console.log("returnedData ===>>> ", returnedData);
-      Auth0.handleAuthentication(returnedData.data.Logintoken);
+      if (returnedData.data.Logintoken) {
+        console.log("returnedData ===>>> ", returnedData);
+        Auth0.handleAuthentication(returnedData.data.Logintoken);
+      }
 
       // getting error if token got experied
-      refreshTokenSetup(response);
+      // refreshTokenSetup(response);
 
       setTimeout(() => {
         this.state.success = null;

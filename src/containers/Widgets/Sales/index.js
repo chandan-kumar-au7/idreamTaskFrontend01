@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Bar } from "react-chartjs-2";
 import { settings } from "./config";
@@ -34,9 +34,9 @@ var data = {
 const SalesStats = (props) => {
   const history = useHistory();
 
-  const [Daily_Active_User, setDaily_Active_User] = useState(0);
-  const [Referral_Count, setReferral_Count] = useState(0);
-  const [New_User_Count, setNew_User_Count] = useState(0);
+  // const [Daily_Active_User, setDaily_Active_User] = useState(0);
+  // const [Referral_Count, setReferral_Count] = useState(0);
+  // const [New_User_Count, setNew_User_Count] = useState(0);
 
   useEffect(() => {
     try {
@@ -53,7 +53,7 @@ const SalesStats = (props) => {
       history.push("/signin");
       notification("error", "something went wrong ", error.message);
     }
-  }, []);
+  }, [history]);
 
   const { title, description, stretched } = props;
 

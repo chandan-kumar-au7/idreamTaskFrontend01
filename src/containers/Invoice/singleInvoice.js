@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import EditInvoice from './editInvoice';
-import ViewInvoice from './viewInvoice';
-import Loader from '../../components/utility/Loader';
-import invoiceActions from '../../redux/invoice/actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import EditInvoice from "./editInvoice";
+import ViewInvoice from "./viewInvoice";
+import Loader from "../../components/utility/Loader";
+import invoiceActions from "../../redux/invoice/actions";
 
 class SingleInvoice extends Component {
   componentDidMount() {
@@ -13,15 +13,15 @@ class SingleInvoice extends Component {
     }
     this.toggleCreatedInvoice(this.props);
   }
-  componentWillReceiveProps(nextProps) {
-    this.toggleCreatedInvoice(nextProps);
-  }
+  // componentDidUpdate(nextProps) {
+  //   this.toggleCreatedInvoice(nextProps);
+  // }
   toggleCreatedInvoice(props) {
     const {
       match,
       initialInvoices,
       currentInvoice,
-      selectCurrentInvoice
+      selectCurrentInvoice,
     } = props;
     const { invoiceId } = match.params;
     if (initialInvoices && currentInvoice.id !== invoiceId) {
@@ -30,7 +30,7 @@ class SingleInvoice extends Component {
   }
   render() {
     const { match, currentInvoice, enableEditView } = this.props;
-    const redirectPath = match.url.replace(match.params.invoiceId, '');
+    const redirectPath = match.url.replace(match.params.invoiceId, "");
     if (currentInvoice.id !== match.params.invoiceId) {
       return <Loader />;
     } else if (enableEditView) {
@@ -42,7 +42,7 @@ class SingleInvoice extends Component {
 }
 function mapStateToProps(state) {
   return {
-    ...state.Invoices
+    ...state.Invoices,
   };
 }
 export default connect(mapStateToProps, invoiceActions)(SingleInvoice);
