@@ -45,7 +45,7 @@ class App extends Component {
 
       // console.log("varified01 ==>> ", varified);
       if (!varified.data.message) {
-        this.props.history.push("/signin");
+        this.props.history.push("/");
         notification("error", "You need to sign in again !");
       }
       // Auth0.handleAuthentication(loginToken);
@@ -55,7 +55,7 @@ class App extends Component {
       }
     } catch (error) {
       // console.log("err ----- ", error);
-      this.props.history.push("/signin");
+      this.props.history.push("/");
     }
   }
 
@@ -91,7 +91,6 @@ class App extends Component {
           <AppFrame>
             <Topbar {...options} />
             {anchor === "left" ? <Sidebar {...options} anchor={anchor} /> : ""}
-
             {/* this is responsible for graph only ** header and asidebar is saperate from this  */}
             <Main
               className={
@@ -127,12 +126,15 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log("reduxStore", state);
+
   return {
     auth: state.Auth,
     locale: state.LanguageSwitcher.language.locale,
     scrollHeight: state.App.scrollHeight, // toJs()
     fixedNavbar: state.App.fixedNavbar,
     view: state.App.view,
+    haveToRerender: state.dashboard.haveToRerender,
   };
 };
 const appConect = connect(mapStateToProps, {

@@ -1,10 +1,10 @@
-import React from 'react';
-import MaskedInput from 'react-text-mask';
-import NumberFormat from 'react-number-format';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React from "react";
+import MaskedInput from "react-text-mask";
+import NumberFormat from "react-number-format";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 
-import { Container, Input } from './textfield.style';
+import { Container, Input } from "./textfield.style";
 
 function TextMaskCustom(props) {
   const { inputRef, ...other } = props;
@@ -14,22 +14,22 @@ function TextMaskCustom(props) {
       {...other}
       ref={inputRef}
       mask={[
-        '(',
+        "(",
         /[1-9]/,
         /\d/,
         /\d/,
-        ')',
-        ' ',
+        ")",
+        " ",
         /\d/,
         /\d/,
         /\d/,
-        '-',
+        "-",
         /\d/,
         /\d/,
         /\d/,
         /\d/,
       ]}
-      placeholderChar={'\u2000'}
+      placeholderChar={"\u2000"}
       showMask
     />
   );
@@ -46,7 +46,7 @@ function NumberFormatCustom(props) {
     <NumberFormat
       {...other}
       ref={inputRef}
-      onValueChange={values => {
+      onValueChange={(values) => {
         onChange({
           target: {
             value: values.value,
@@ -66,11 +66,11 @@ NumberFormatCustom.propTypes = {
 
 class FormattedInputs extends React.Component {
   state = {
-    textmask: '(1  )    -    ',
-    numberformat: '1320',
+    textmask: "(1  )    -    ",
+    numberformat: "1320",
   };
 
-  handleChange = name => event => {
+  handleChange = (name) => (event) => {
     this.setState({
       [name]: event.target.value,
     });
@@ -82,17 +82,17 @@ class FormattedInputs extends React.Component {
         <Input
           value={this.state.textmask}
           inputComponent={TextMaskCustom}
-          onChange={this.handleChange('textmask')}
+          onChange={this.handleChange("textmask")}
           inputProps={{
-            'aria-label': 'Description',
+            "aria-label": "Description",
           }}
         />
         <Input
           value={this.state.numberformat}
-          onChange={this.handleChange('numberformat')}
+          onChange={this.handleChange("numberformat")}
           inputComponent={NumberFormatCustom}
           inputProps={{
-            'aria-label': 'Description',
+            "aria-label": "Description",
           }}
         />
       </Container>

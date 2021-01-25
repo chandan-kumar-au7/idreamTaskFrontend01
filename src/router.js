@@ -18,7 +18,7 @@ const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
       ) : (
         <Redirect
           to={{
-            pathname: "/signin",
+            pathname: "/",
             state: { from: props.location },
           }}
         />
@@ -32,15 +32,13 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
     (async function () {
       const varified = await varifyToken();
       console.log("varified ", varified);
-
       if (isLoggedIn === true && varified.data !== "invalid token") {
         history.push("/dashboard");
       } else {
         notification("error", "You Need To LogIn Again");
       }
     })();
-  }, [isLoggedIn, history]);
-
+  }, [history, isLoggedIn]);
   return (
     <BrowserRouter>
       <>
@@ -49,11 +47,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           path="/"
           component={lazy(() => import("./containers/Page/signin"))}
         />
-        <Route
-          exact
-          path="/signin"
-          component={lazy(() => import("./containers/Page/signin"))}
-        />
+
         <Route
           path="/auth0loginCallback"
           render={(props) => {
@@ -101,4 +95,5 @@ function mapStateToProps(state) {
     isLoggedIn: state.Auth.loginToken !== null,
   };
 }
+
 export default connect(mapStateToProps)(PublicRoutes);

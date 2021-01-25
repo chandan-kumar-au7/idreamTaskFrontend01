@@ -40,6 +40,8 @@
     "moment-jalaali": "0.8.3",
     "node-sass": "^4.12.0",
     "nprogress": "0.2.0",
+    "pusher": "^4.0.2",
+    "pusher-js": "^7.0.2",
     "rc-notification": "^3.3.1",
     "rc-pagination": "^1.20.8",
     "react": "^16.11.0",

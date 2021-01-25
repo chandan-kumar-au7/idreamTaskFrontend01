@@ -23,7 +23,7 @@ class Auth0Helper {
   logout() {
     localStorage.removeItem("id_token");
     notification("success", "Logged Out SuccessFully");
-    history.replace("/signin");
+    history.push("/signin");
   }
 
   isAuthenticated() {

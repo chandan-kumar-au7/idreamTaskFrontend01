@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import signinImg from "../../../images/signup.svg";
 import authAction from "../../../redux/auth/actions";
@@ -31,15 +31,6 @@ class SignIn extends Component {
     isAuthenticated: false,
   };
 
-  // componentDidUpdate(nextProps) {
-  //   if (
-  //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
-  //     nextProps.isLoggedIn === true
-  //   ) {
-  //     this.setState({ redirectToReferrer: true });
-  //   }
-  // }
-
   responseGoogle = async (response) => {
     try {
       returnedData = await axios({
@@ -48,7 +39,7 @@ class SignIn extends Component {
         data: response,
       });
       if (returnedData.data.Logintoken) {
-        console.log("returnedData ===>>> ", returnedData);
+        console.log("returnedData_/signin_Page ===>>> ", returnedData);
         Auth0.handleAuthentication(returnedData.data.Logintoken);
       }
 
@@ -70,22 +61,10 @@ class SignIn extends Component {
     }
   };
 
-  // handleLogin = () => {
-  // const { login } = this.props;
-  // this.props.history.push("/dashboard");
-  // };
-
   onChangeUsername = (event) => this.setState({ username: event.target.value });
   onChangePassword = (event) => this.setState({ password: event.target.value });
 
   render() {
-    const from = { pathname: "/dashboard" };
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer) {
-      return <Redirect to={from} />;
-    }
-
     return (
       <SignInStyleWrapper className="mateSignInPage">
         <div className="mateSignInPageImgPart">
@@ -118,7 +97,7 @@ class SignIn extends Component {
               </span>
             </div>
             <div className="mateLoginOtherBtn">
-              <div className="mateLoginOtherBtnWrap" onClick={this.handleLogin}>
+              <div className="mateLoginOtherBtnWrap">
                 <GoogleLogin
                   className="btnGooglePlus"
                   clientId="472028388531-pbk8thqe6nr57vmu9hisuh85s4j1vdsd.apps.googleusercontent.com"
@@ -131,7 +110,7 @@ class SignIn extends Component {
               </div>
 
               <div className="mateLoginOtherBtnWrap">
-                {Firebase.isValid && <FirebaseLogin login={this.handleLogin} />}
+                {Firebase.isValid && <FirebaseLogin />}
               </div>
             </div>
             {this.state.error !== null && (

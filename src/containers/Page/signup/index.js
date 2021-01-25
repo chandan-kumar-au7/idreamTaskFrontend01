@@ -22,19 +22,7 @@ class SignUp extends Component {
   state = {
     redirectToReferrer: false,
   };
-  // componentDidUpdate(nextProps) {
-  //   if (
-  //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
-  //     nextProps.isLoggedIn === true
-  //   ) {
-  //     this.setState({ redirectToReferrer: true });
-  //   }
-  // }
-  handleLogin = () => {
-    const { login } = this.props;
-    login();
-    this.props.history.push("/dashboard");
-  };
+
   render() {
     return (
       <SignUpStyleWrapper className="mateSignUpPage">
@@ -51,7 +39,7 @@ class SignUp extends Component {
                 Register
               </button>
             </Link>
-            <Link to="/signin">
+            <Link to="/">
               <button className="mateSignInPageLinkBtn " type="button">
                 Login
               </button>

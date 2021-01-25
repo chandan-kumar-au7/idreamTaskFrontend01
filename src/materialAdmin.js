@@ -1,23 +1,23 @@
-import React, { Suspense } from 'react';
-import { Provider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
-import { ThemeProvider } from 'styled-components';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
-import { StylesProvider, jssPreset } from '@material-ui/styles';
-import themes from './settings/themes';
-import { themeConfig } from './settings';
-import AppLocale from './languageProvider';
-import { store, history } from './redux/store';
-import Boot from './redux/boot';
-import Router from './router';
-import Loader from './components/utility/Loader/';
+import React, { Suspense } from "react";
+import { Provider } from "react-redux";
+import { IntlProvider } from "react-intl";
+import { ThemeProvider } from "styled-components";
+import { create } from "jss";
+import rtl from "jss-rtl";
+import { StylesProvider, jssPreset } from "@material-ui/styles";
+import themes from "./settings/themes";
+import { themeConfig } from "./settings";
+import AppLocale from "./languageProvider";
+import { store, history } from "./redux/store";
+import Boot from "./redux/boot";
+import Router from "./router";
+import Loader from "./components/utility/Loader/";
 
 const currentAppLocale = AppLocale.en;
 
 if (!global.__INSERTION_POINT__) {
   global.__INSERTION_POINT__ = true;
-  const styleNode = document.createComment('insertion-point-jss');
+  const styleNode = document.createComment("insertion-point-jss");
 
   if (document.head) {
     document.head.insertBefore(styleNode, document.head.firstChild);
@@ -26,7 +26,7 @@ if (!global.__INSERTION_POINT__) {
 
 const jss = create({
   plugins: [...jssPreset().plugins, rtl()],
-  insertionPoint: 'insertion-point-jss',
+  insertionPoint: "insertion-point-jss",
 });
 
 const MetaAdmin = () => {
@@ -51,6 +51,6 @@ const MetaAdmin = () => {
 
 Boot()
   .then(() => MetaAdmin())
-  .catch(error => console.error(error));
+  .catch((error) => console.error(error));
 
 export default MetaAdmin;
