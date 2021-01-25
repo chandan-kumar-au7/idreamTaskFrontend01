@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { WidgetBoxWrapper } from './style';
+import React, { Component } from "react";
+import { WidgetBoxWrapper } from "./style";
 
 export default class WidgetBox extends Component {
   render() {
@@ -7,13 +7,13 @@ export default class WidgetBox extends Component {
     return (
       <WidgetBoxWrapper style={style} stretched={stretched}>
         {title ? (
-          <h3 className={description ? 'withDescription' : 'widgetTitle'}>
+          <h3 className={description ? "withDescription" : "widgetTitle"}>
             {title}
           </h3>
         ) : (
-          ''
+          ""
         )}
-        {description ? <p className="description">{description}</p> : ''}
+        {description ? <p className="description">{description}</p> : ""}
 
         <div className="contentWrapper">{children}</div>
       </WidgetBoxWrapper>

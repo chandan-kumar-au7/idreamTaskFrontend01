@@ -19,17 +19,20 @@ const SalesStats = (props) => {
   let DAU = [];
   let RU = [];
   let NUC = [];
-  let dayToShow = [];
 
   const { Clicked, From, To } = props;
 
   useEffect(() => {
     try {
       axios({
-        method: "get",
+        method: "post",
         url: `http://${document.location.hostname}:4000/dau/getdau`,
+        data: {
+          from: From,
+          to: To,
+        },
       }).then((dauData) => {
-        console.log(dauData);
+        console.log("DAU ==>> ", dauData);
 
         for (const dataObj of dauData.data) {
           PERDAYBYDATE.push(parseInt(dataObj.day));
@@ -37,17 +40,8 @@ const SalesStats = (props) => {
           RU.push(parseInt(dataObj.referral_count));
           NUC.push(parseInt(dataObj.new_user_count));
         }
-        if (Clicked === true) {
-          for (var day = From; day < To; day++) {
-            dayToShow.push(PERDAYBYDATE[PERDAYBYDATE.length - day]);
-          }
-        }
-        if (Clicked !== true) {
-          for (var day = 1; day < 9; day++) {
-            dayToShow.push(PERDAYBYDATE[PERDAYBYDATE.length - day]);
-          }
-        }
-        setDay(dayToShow);
+
+        setDay(PERDAYBYDATE);
         setDaily_Active_User(DAU);
         setReferral_Count(RU);
         setNew_User_Count(NUC);
@@ -69,11 +63,12 @@ const SalesStats = (props) => {
     labels: Day,
     datasets: [
       {
-        label: "Daily_Active_User",
-        backgroundColor: "rgb(255, 99, 132)",
-        data: Daily_Active_User,
+        label: "New_User_Count",
+        backgroundColor: "rgb(153, 102, 255)",
+        data: New_User_Count,
         stack: 1,
       },
+
       {
         label: "Referral_Count",
         backgroundColor: "rgb(54, 162, 235)",
@@ -81,9 +76,9 @@ const SalesStats = (props) => {
         stack: 1,
       },
       {
-        label: "New_User_Count",
-        backgroundColor: "rgb(153, 102, 255)",
-        data: New_User_Count,
+        label: "Daily_Active_User",
+        backgroundColor: "rgb(255, 99, 132)",
+        data: Daily_Active_User,
         stack: 1,
       },
     ],

@@ -1,18 +1,18 @@
-import React, { Fragment, Component } from 'react';
-import moment from 'moment';
-import { Row, HalfColumn } from '../../../components/utility/rowColumn';
-import AlignLeft, { Typography } from './style';
+import React, { Fragment, Component } from "react";
+import moment from "moment";
+import { Row, HalfColumn } from "../../../components/utility/rowColumn";
+import AlignLeft, { Typography } from "./style";
 import {
   TimePicker,
   DatePicker,
-} from '../../../components/uielements/materialUiPicker';
+} from "../../../components/uielements/materialUiPicker";
 
 export default class extends Component {
   state = {
     selectedDate: moment(),
   };
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     this.setState({ selectedDate: date });
   };
 

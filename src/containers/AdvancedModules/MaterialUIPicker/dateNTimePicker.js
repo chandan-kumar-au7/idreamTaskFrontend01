@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { DateTimePicker } from '../../../components/uielements/materialUiPicker';
-import { Row, HalfColumn } from '../../../components/utility/rowColumn';
-import AlignLeft, { Typography } from './style';
-import Icon from '@material-ui/core/Icon';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '../../../components/uielements/iconbutton';
+import React, { Component } from "react";
+import { DateTimePicker } from "../../../components/uielements/materialUiPicker";
+import { Row, HalfColumn } from "../../../components/utility/rowColumn";
+import AlignLeft, { Typography } from "./style";
+import Icon from "@material-ui/core/Icon";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "../../../components/uielements/iconbutton";
 export default class BasicUsage extends Component {
   state = {
     selectedDate: new Date(),
   };
 
-  handleDateChange = date => {
+  handleDateChange = (date) => {
     this.setState({ selectedDate: date });
   };
 

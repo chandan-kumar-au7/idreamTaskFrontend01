@@ -1,52 +1,52 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import IntlMessages from '../../../components/utility/intlMessages';
-import { Row, HalfColumn } from '../../../components/utility/rowColumn';
-import Box from '../../../components/utility/papersheet';
-import LayoutWrapper from '../../../components/utility/layoutWrapper';
-import BasicUsage from './basicUsage';
-import DateNTimePicker from './dateNTimePicker';
-import CustomDayElement from './customDayElement';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import IntlMessages from "../../../components/utility/intlMessages";
+import { Row, HalfColumn } from "../../../components/utility/rowColumn";
+import Box from "../../../components/utility/papersheet";
+import LayoutWrapper from "../../../components/utility/layoutWrapper";
+import BasicUsage from "./basicUsage";
+import DateNTimePicker from "./dateNTimePicker";
+import CustomDayElement from "./customDayElement";
 // import PersianPickers from './persianPickers';
 
-const styles = theme => ({
+const styles = (theme) => ({
   dayWrapper: {
-    position: 'relative',
+    position: "relative",
   },
   day: {
     width: 36,
     height: 36,
     fontSize: 14,
-    margin: '0 2px',
+    margin: "0 2px",
     color: theme.palette.text.primary,
   },
   customDayHighlight: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
-    left: '2px',
-    right: '2px',
-    border: '2px solid #6270bf',
-    borderRadius: '50%',
+    left: "2px",
+    right: "2px",
+    border: "2px solid #6270bf",
+    borderRadius: "50%",
   },
   nonCurrentMonthDay: {
-    color: '#BCBCBC',
+    color: "#BCBCBC",
   },
   highlightNonCurrentMonthDay: {
-    color: '#676767',
+    color: "#676767",
   },
   highlight: {
-    background: '#9fa8da',
+    background: "#9fa8da",
   },
   firstHighlight: {
-    extend: 'highlight',
-    borderTopLeftRadius: '50%',
-    borderBottomLeftRadius: '50%',
+    extend: "highlight",
+    borderTopLeftRadius: "50%",
+    borderBottomLeftRadius: "50%",
   },
   endHighlight: {
-    extend: 'highlight',
-    borderTopRightRadius: '50%',
-    borderBottomRightRadius: '50%',
+    extend: "highlight",
+    borderTopRightRadius: "50%",
+    borderBottomRightRadius: "50%",
   },
 });
 

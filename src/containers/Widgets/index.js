@@ -7,6 +7,7 @@ import {
   FullColumn,
   HalfColumn,
 } from "../../components/utility/rowColumn";
+import moment from "moment";
 import InstagramFeed from "./InstagramFeed";
 import Contacts from "../Contact/contactBox";
 import Statistics from "./Statistics";
@@ -19,81 +20,83 @@ import CircularWidget from "./CircularWidgets";
 import Visitors from "./Visitors";
 import { data, data2, data3 } from "./Transactions/config";
 import WidgetBox from "./WidgetBox";
-import Input from "../../components/uielements/input";
+// import Input from "../../components/uielements/input";
+import { DatePicker } from "../../components/uielements/materialUiPicker";
+
 import Icon from "../../components/uielements/icon/index.js";
 import { Button } from "../UiElements/Button/button.style";
 
-import {
-  Container,
-  FormControl,
-  InputLabel,
-} from "../UiElements/TextFields/textfield.style";
+import AlignLeft, {
+  Typography,
+} from "../AdvancedModules/MaterialUIPicker/style";
+
+import { FormControl } from "../UiElements/TextFields/textfield.style";
 
 const Widget = () => {
-  const newDate = new Date();
-  const today = newDate.getDate();
-
-  const [From, setFrom] = useState(today - 8);
-  const [To, setTo] = useState(today);
   const [Clicked, setClicked] = useState(false);
+  const [selectedDateFrom, setselectedDateFrom] = useState(moment());
+  const [selectedDateTo, setselectedDateTo] = useState(moment());
+
+  const handleFromDateChange = (date) => {
+    console.log("DAte ==>. ", date._d.toISOString());
+    setselectedDateFrom(date._d.toISOString());
+    // console.log("selectedDateFrom ", selectedDateFrom);
+  };
+
+  const handleToDateChange = (date) => {
+    console.log("DAte ==>. ", date._d.toISOString());
+    setselectedDateTo(date._d.toISOString());
+    // console.log("selectedDateTo ", selectedDateTo);
+  };
 
   return (
     <LayoutWrapper>
       <Row>
         <FullColumn>
           {/* from -- to DAU  */}
-          <WidgetBox>
-            <Row>
-              <Container>
-                <FormControl>
-                  <InputLabel
-                    style={{ marginTop: "-20px" }}
-                    htmlFor="custom-color-input"
-                  >
-                    From :
-                  </InputLabel>
-                  <Input
-                    id="custom-color-input"
-                    type="number"
-                    onChange={(e) => {
-                      setFrom(e.target.value);
-                      setClicked(false);
-                    }}
-                    min="1"
-                    max="31"
+          <WidgetBox style={{ marginTop: "-20px" }}>
+            <Row style={{ margin: "-40px 0px" }}>
+              <OneThirdColumn sm={12} md={6}>
+                <AlignLeft>
+                  <Typography gutterBottom>From : </Typography>
+
+                  <DatePicker
+                    value={selectedDateFrom}
+                    onChange={handleFromDateChange}
+                    animateYearScrolling={false}
                   />
-                </FormControl>
-              </Container>
-              <Container>
-                <FormControl>
-                  <InputLabel
-                    style={{ marginTop: "-20px" }}
-                    htmlFor="custom-color-input"
-                  >
-                    TO :
-                  </InputLabel>
-                  <Input
-                    id="custom-color-input"
-                    onChange={(e) => {
-                      setTo(e.target.value);
-                      setClicked(false);
-                    }}
-                    type="number"
+                </AlignLeft>
+              </OneThirdColumn>
+
+              <OneThirdColumn sm={12} md={6}>
+                <AlignLeft>
+                  <Typography gutterBottom>To : </Typography>
+
+                  <DatePicker
+                    value={selectedDateTo}
+                    onChange={handleToDateChange}
+                    animateYearScrolling={false}
                   />
-                </FormControl>
-              </Container>
-              <Container>
+                </AlignLeft>
+              </OneThirdColumn>
+
+              <OneThirdColumn sm={12} md={6}>
                 <FormControl>
                   <Button
                     variant="contained"
                     color="default"
-                    onClick={() => setClicked(true)}
+                    onClick={() => {
+                      setClicked(true);
+                      setTimeout(() => {
+                        setClicked(false);
+                      }, 1000);
+                    }}
                   >
                     Filter_DAU
                     <Icon className="rightIcon">send</Icon>
                   </Button>
                 </FormControl>
-              </Container>
+              </OneThirdColumn>
             </Row>
           </WidgetBox>
         </FullColumn>
@@ -103,8 +106,8 @@ const Widget = () => {
           {/* this is for stacked column chart.js component   */}
           <SalesStats
             title="D.A.U"
-            From={From}
-            To={To}
+            From={selectedDateFrom}
+            To={selectedDateTo}
             Clicked={Clicked}
             stretched
           />
