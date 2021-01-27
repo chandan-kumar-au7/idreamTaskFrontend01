@@ -1,7 +1,7 @@
-import { all, takeEvery, put } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
-import { clearToken, getToken } from '../../helpers/utility';
-import actions from './actions';
+import { all, takeEvery, put } from "redux-saga/effects";
+import { push } from "connected-react-router";
+import { clearToken, getToken } from "../../helpers/utility";
+import actions from "./actions";
 
 const fakeApiCall = true; // auth0 or express JWT
 
@@ -9,8 +9,8 @@ export function* loginRequest() {
   if (fakeApiCall) {
     yield put({
       type: actions.LOGIN_SUCCESS,
-      payload: { token: 'secret token' },
-      profile: 'Profile',
+      payload: { token: "secret token" },
+      profile: "Profile",
     });
   } else {
     yield put({ type: actions.LOGIN_ERROR });
@@ -18,14 +18,14 @@ export function* loginRequest() {
 }
 
 export function* loginSuccess({ payload }) {
-  yield localStorage.setItem('id_token', payload.token);
+  yield localStorage.setItem("id_token", payload.token);
 }
 
 export function* loginError() {}
 
 export function* logout() {
   clearToken();
-  yield put(push('/'));
+  yield put(push("/"));
 }
 export function* checkAuthorization() {
   const token = getToken();
@@ -33,7 +33,7 @@ export function* checkAuthorization() {
     yield put({
       type: actions.LOGIN_SUCCESS,
       payload: { token },
-      profile: 'Profile',
+      profile: "Profile",
     });
   }
 }

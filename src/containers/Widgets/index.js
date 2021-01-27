@@ -38,13 +38,13 @@ const Widget = () => {
   const [selectedDateTo, setselectedDateTo] = useState(moment());
 
   const handleFromDateChange = (date) => {
-    console.log("DAte ==>. ", date._d.toISOString());
+    // console.log("DAte ==>. ", date._d.toISOString());
     setselectedDateFrom(date._d.toISOString());
     // console.log("selectedDateFrom ", selectedDateFrom);
   };
 
   const handleToDateChange = (date) => {
-    console.log("DAte ==>. ", date._d.toISOString());
+    // console.log("DAte ==>. ", date._d.toISOString());
     setselectedDateTo(date._d.toISOString());
     // console.log("selectedDateTo ", selectedDateTo);
   };
@@ -115,7 +115,13 @@ const Widget = () => {
 
         <HalfColumn>
           {/* this is for right side statics component  */}
-          <Statistics title="Statistics" stretched />
+          <Statistics
+            title="DAU % Wise"
+            From={selectedDateFrom}
+            To={selectedDateTo}
+            Clicked={Clicked}
+            stretched
+          />
         </HalfColumn>
       </Row>
 

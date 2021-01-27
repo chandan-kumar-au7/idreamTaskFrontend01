@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 import { Bar } from "react-chartjs-2";
 import { settings } from "./config";
 import WidgetBox from "../WidgetBox";
-import axios from "axios";
+// import axios from "axios";
+import { findDau } from "../../../utils/findDau";
 
 import { notification } from "../../../components";
 
@@ -24,15 +25,8 @@ const SalesStats = (props) => {
 
   useEffect(() => {
     try {
-      axios({
-        method: "post",
-        url: `http://${document.location.hostname}:4000/dau/getdau`,
-        data: {
-          from: From,
-          to: To,
-        },
-      }).then((dauData) => {
-        console.log("DAU ==>> ", dauData);
+      findDau(From, To).then((dauData) => {
+        // console.log("DAU ==>> ", dauData);
 
         for (const dataObj of dauData.data) {
           PERDAYBYDATE.push(parseInt(dataObj.day));
@@ -87,9 +81,9 @@ const SalesStats = (props) => {
   return (
     <WidgetBox title={title} description={description} stretched={stretched}>
       <Bar stacked={true} data={data} options={settings} />
-      <div style={{ width: "100%", textAlign: "center", color: "green" }}>
+      {/* <div style={{ width: "100%", textAlign: "center", color: "green" }}>
         ---------- Date ----------
-      </div>
+      </div> */}
     </WidgetBox>
   );
 };

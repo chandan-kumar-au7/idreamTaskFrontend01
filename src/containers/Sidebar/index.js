@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Collapse from '@material-ui/core/Collapse';
-import Scrollbars from '../../components/utility/customScrollBar';
-import IntlMessages from '../../components/utility/intlMessages';
-import appActions from '../../redux/app/actions';
-// import Logo from '../../images/logo.png';
-import options from './options';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Collapse from "@material-ui/core/Collapse";
+import Scrollbars from "../../components/utility/customScrollBar";
+import IntlMessages from "../../components/utility/intlMessages";
+import appActions from "../../redux/app/actions";
+// import Logo from "../../images/logo.png";
+import options from "./options";
 import Drawer, {
   LogoWrapper,
   Lists,
@@ -15,7 +15,7 @@ import Drawer, {
   ListItemText,
   ExpandLessIcon,
   ExpandMoreIcon,
-} from './style';
+} from "./style";
 
 const { toggleCollapsed, changeOpenKeys, changeCurrent } = appActions;
 
@@ -33,7 +33,7 @@ const ListElement = ({
   label,
   children,
   optionCollapsed,
-  isOpened,
+  // isOpened,
   isNavTab,
 }) => {
   return (
@@ -55,7 +55,7 @@ const ListElement = ({
           </ExpandMoreIcon>
         )
       ) : (
-        ''
+        ""
       )}
     </div>
   );
@@ -64,14 +64,21 @@ const ListElement = ({
 const LogoElem = ({ onLogo }) => {
   return (
     <Link to="/dashboard" onClick={onLogo}>
-      {/* <img src={Logo} alt="Logo" /> */}
-      Mate admin
+      <img
+        height="60"
+        width="100"
+        src={
+          "https://idreamcareer.com/wp-content/uploads/2020/11/IDC-logo-new.png"
+        }
+        alt="Logo"
+      />
+      {/* I-Dream-Career */}
     </Link>
   );
 };
 
-const stripTrailingSlash = str => {
-  if (str.substr(-1) === '/') {
+const stripTrailingSlash = (str) => {
+  if (str.substr(-1) === "/") {
     return str.substr(0, str.length - 1);
   }
   return str;
@@ -101,7 +108,7 @@ class Sidebar extends Component {
     selectedTheme = customizedTheme;
     const scrollheight = height;
     const url = stripTrailingSlash(this.props.url);
-    const menuItem = option => {
+    const menuItem = (option) => {
       const { key, children, isNavTab } = option;
       const optionCollapsed = children && openKeys[key] === true;
       const isOpened = openKeys[key] === true;
@@ -119,7 +126,7 @@ class Sidebar extends Component {
             <ListItem
               button
               onClick={collapsedClick}
-              className={optionCollapsed ? 'expands' : ''}
+              className={optionCollapsed ? "expands" : ""}
             >
               <ListElement
                 {...option}
@@ -129,7 +136,7 @@ class Sidebar extends Component {
             </ListItem>
           ) : (
             <ListItem
-              className={current[key] ? 'selected' : ''}
+              className={current[key] ? "selected" : ""}
               onClick={collapsedClick}
             >
               <Link to={linkTo} onClick={toggleCollapsed}>
@@ -146,7 +153,7 @@ class Sidebar extends Component {
               {children.map(menuItem)}
             </Collapse>
           ) : (
-            ''
+            ""
           )}
         </div>
       );
@@ -154,23 +161,23 @@ class Sidebar extends Component {
     return (
       <Drawer
         variant={
-          view !== 'TabLandView' && view !== 'DesktopView'
+          view !== "TabLandView" && view !== "DesktopView"
             ? undefined
             : fixedNavbar
-              ? 'permanent'
-              : undefined
+            ? "permanent"
+            : undefined
         }
         open={!collapsed}
         onClose={toggleCollapsed}
         anchor={anchor}
         transitionDuration={100}
-        className={`${collapsed && 'collapsed'} ${fixedNavbar && 'f1x3dnAV'}`}
+        className={`${collapsed && "collapsed"} ${fixedNavbar && "f1x3dnAV"}`}
       >
         <div
           className="drawerInner"
           style={{ background: customizedTheme.backgroundColor }}
         >
-          <LogoWrapper>
+          <LogoWrapper style={{ background: "#202020" }}>
             <LogoElem onLogo={this.onLogo} />
           </LogoWrapper>
           <Scrollbars style={{ height: scrollheight - 64 }}>
@@ -183,7 +190,7 @@ class Sidebar extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.App,
     customizedTheme: state.ThemeSwitcher.sidebarTheme,
   }),

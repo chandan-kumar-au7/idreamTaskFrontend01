@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import Icon from '../../components/uielements/icon';
-import appActions from '../../redux/app/actions';
-import themeActions from '../../redux/themeSwitcher/actions';
-import { AppHolder, Toolbar, IconButtons, TopbarComponents } from './style';
-import TopbarSearch from './topbarSearch';
-import SecondarySidebar from '../SecondarySidebar';
-import TopbarNotification from './sidebarNotification';
-import TopbarUser from './topbarUser';
+import Icon from "../../components/uielements/icon";
+import appActions from "../../redux/app/actions";
+import themeActions from "../../redux/themeSwitcher/actions";
+import { AppHolder, Toolbar, IconButtons, TopbarComponents } from "./style";
+import TopbarSearch from "./topbarSearch";
+import SecondarySidebar from "../SecondarySidebar";
+import TopbarNotification from "./sidebarNotification";
+import TopbarUser from "./topbarUser";
 const { toggleCollapsed } = appActions;
 const { switchActivation } = themeActions;
 
@@ -26,8 +26,8 @@ class Topbar extends Component {
       <AppHolder style={{ background: customizedTheme.backgroundColor }}>
         <Toolbar
           style={{
-            paddingLeft: '30px',
-            minHeight: '64px',
+            paddingLeft: "30px",
+            minHeight: "64px",
             background: customizedTheme.topbarTheme,
           }}
         >
@@ -53,7 +53,7 @@ class Topbar extends Component {
               <li className="topbarNotification">
                 <div>
                   <Icon
-                    onClick={() => switchActivation('notification')}
+                    onClick={() => switchActivation("notification")}
                     style={{ matginTop: 5 }}
                   >
                     widgets
@@ -78,7 +78,7 @@ class Topbar extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.App,
     locale: state.LanguageSwitcher.language.locale,
     customizedTheme: state.ThemeSwitcher.topbarTheme,

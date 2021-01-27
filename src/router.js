@@ -5,8 +5,13 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./containers/App";
 import Auth0 from "./helpers/auth0";
 import { notification } from "./components";
+import dashboardAction from "./redux/dashboard/actions";
+import authAction from "./redux/auth/actions";
 
 import { varifyToken } from "./utils/varifyToken";
+
+const { haveToRerender } = dashboardAction;
+const { loggedInUserData } = authAction;
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   // console.log(isLoggedIn),
@@ -27,14 +32,27 @@ const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   />
 );
 
-const PublicRoutes = ({ history, isLoggedIn }) => {
+const PublicRoutes = ({
+  history,
+  isLoggedIn,
+  haveToRerender,
+  loggedInUserData,
+}) => {
   useEffect(() => {
     (async function () {
       const varified = await varifyToken();
-      console.log("varified ", varified);
-      if (isLoggedIn === true && varified.data !== "invalid token") {
+      // console.log("varified ", varified);
+      if (
+        isLoggedIn === true &&
+        varified.data !== "invalid token" &&
+        varified.data !== "jwt expired"
+      ) {
+        haveToRerender(true);
+        loggedInUserData(varified.data.data);
+
         history.push("/dashboard");
       } else {
+        history.push("/");
         notification("error", "You Need To LogIn Again");
       }
     })();
@@ -91,9 +109,13 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
 };
 
 function mapStateToProps(state) {
+  // console.log("redux state_src/router.js ----- ", state);
   return {
     isLoggedIn: state.Auth.loginToken !== null,
+    Rerendring: state.dashboard.haveToRerender,
   };
 }
 
-export default connect(mapStateToProps)(PublicRoutes);
+export default connect(mapStateToProps, { haveToRerender, loggedInUserData })(
+  PublicRoutes
+);

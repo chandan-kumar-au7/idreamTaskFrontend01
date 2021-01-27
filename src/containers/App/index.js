@@ -7,7 +7,7 @@ import AppRouter from "./appRouter";
 import Sidebar from "../Sidebar";
 import Topbar from "../Topbar";
 import AppLocale from "../../languageProvider";
-import authAction from "../../redux/auth/actions";
+// import authAction from "../../redux/auth/actions";
 import appActions from "../../redux/app/actions";
 import themeActions from "../../redux/themeSwitcher/actions";
 import ThemeSwitcher from "../ThemeSwitcher";
@@ -24,7 +24,7 @@ import { notification } from "../../components";
 import Main, { Root, AppFrame } from "./style";
 import "./global.css";
 
-const { logout } = authAction;
+// const { logout } = authAction;
 const { toggleAll } = appActions;
 const { switchActivation } = themeActions;
 
@@ -70,7 +70,9 @@ class App extends Component {
       scrollHeight,
       fixedNavbar,
       view,
+      haveToRerender,
     } = this.props;
+
     const { url } = match;
     const propsTopbar = { locale, url };
     const options = { url, classes, theme, locale };
@@ -138,7 +140,7 @@ const mapStateToProps = (state) => {
   };
 };
 const appConect = connect(mapStateToProps, {
-  logout,
+  // logout,
   toggleAll,
   switchActivation,
 })(App);

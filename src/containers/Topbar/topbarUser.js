@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import IntlMessages from '../../components/utility/intlMessages';
-import TopbarDropdownWrapper from './topbarDropdown.style';
+import React, { Component } from "react";
+import { findDOMNode } from "react-dom";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import IntlMessages from "../../components/utility/intlMessages";
+import TopbarDropdownWrapper from "./topbarDropdown.style";
 import {
   IconButtons,
   TopbarDropdown,
   UserInformation,
   SettingsList,
   Icon,
-} from './topbarDropdown.style';
-import authAction from '../../redux/auth/actions';
-import Image from '../../images/user.jpg';
+} from "./topbarDropdown.style";
+import authAction from "../../redux/auth/actions";
+import Image from "../../images/user.jpg";
 
 const { logout } = authAction;
 
@@ -20,6 +20,9 @@ class TopbarUser extends Component {
   state = {
     visible: false,
     anchorEl: null,
+    userImage: "",
+    userEmail: "",
+    userName: "",
   };
   hide = () => {
     this.setState({ visible: false });
@@ -30,17 +33,39 @@ class TopbarUser extends Component {
       anchorEl: findDOMNode(this.button),
     });
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        userImage: this.props.userData.imageUrl,
+        userEmail: this.props.userData.email,
+        userName: this.props.userData.name,
+      });
+    }, 2000);
+  }
+
   render() {
+    // console.log("this.props.123 ", this.props);
     const content = (
-      <TopbarDropdown>
+      <TopbarDropdown style={{ width: "auto" }}>
         <UserInformation>
           <div className="userImage">
-            <img src={Image} alt="user" />
+            {this.state.userImage === "" ? (
+              <img src={Image} alt="user" />
+            ) : (
+              <img src={this.state.userImage} alt="user" />
+            )}
           </div>
 
           <div className="userDetails">
-            <h3>John Doe</h3>
-            <p>Sr. Marketing Officer</p>
+            {this.state.userEmail === "" ? (
+              <h3>{"Hello User"}</h3>
+            ) : (
+              <>
+                <p>{this.state.userName}</p>
+                <h3>{this.state.userEmail}</h3>
+              </>
+            )}
           </div>
         </UserInformation>
 
@@ -67,13 +92,17 @@ class TopbarUser extends Component {
     return (
       <div id="topbarUserIcon">
         <IconButtons
-          ref={node => {
+          ref={(node) => {
             this.button = node;
           }}
           onClick={this.handleVisibleChange}
         >
           <div className="userImgWrapper">
-            <img src={Image} alt="#" />
+            {this.state.userImage === "" ? (
+              <img src={Image} alt="user" />
+            ) : (
+              <img src={this.state.userImage} alt="user" />
+            )}
           </div>
         </IconButtons>
 
@@ -84,12 +113,12 @@ class TopbarUser extends Component {
           // marginThreshold={66}
           className="userPopover"
           anchorOrigin={{
-            horizontal: 'right',
-            vertical: 'top',
+            horizontal: "right",
+            vertical: "top",
           }}
           transformOrigin={{
-            horizontal: 'right',
-            vertical: 'bottom',
+            horizontal: "right",
+            vertical: "bottom",
           }}
         >
           {content}
@@ -99,10 +128,16 @@ class TopbarUser extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    ...state.App,
+function mapStateToProps(state) {
+  // console.log(
+  //   "redux state_src/_sec/containers/AppPage/Topbar/topbarUser.js ----- ",
+  //   state
+  // );
+  return {
     customizedTheme: state.ThemeSwitcher.topbarTheme,
-  }),
-  { logout }
-)(TopbarUser);
+    // userImage: state.Auth.loggedInUserData.imageUrl,
+    userData: state.Auth.loggedInUserData,
+  };
+}
+
+export default connect(mapStateToProps, { logout })(TopbarUser);

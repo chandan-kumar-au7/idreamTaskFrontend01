@@ -20,7 +20,7 @@ import { GoogleLogin } from "react-google-login";
 
 let returnedData;
 
-const { login } = authAction;
+const { loggedInUserData } = authAction;
 
 class SignIn extends Component {
   state = {
@@ -40,7 +40,9 @@ class SignIn extends Component {
       });
       if (returnedData.data.Logintoken) {
         console.log("returnedData_/signin_Page ===>>> ", returnedData);
+        // console.log("_/signin_Page ===>>> ", this.props);
         Auth0.handleAuthentication(returnedData.data.Logintoken);
+        this.props.loggedInUserData(returnedData.data);
       }
 
       // getting error if token got experied
@@ -130,9 +132,12 @@ class SignIn extends Component {
   }
 }
 
-export default connect(
-  (state) => ({
+function mapStateToProps(state) {
+  console.log("redux state_container/page/signin/index.js ----- ", state);
+  return {
     isLoggedIn: state.Auth.loginToken !== null ? true : false,
-  }),
-  { login }
-)(SignIn);
+    loggedInUserData: state.Auth.loggedInUserData,
+  };
+}
+
+export default connect(mapStateToProps, { loggedInUserData })(SignIn);

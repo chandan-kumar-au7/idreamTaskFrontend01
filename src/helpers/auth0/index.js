@@ -20,8 +20,8 @@ class Auth0Helper {
     history.push("/dashboard");
   }
 
-  logout() {
-    localStorage.removeItem("id_token");
+  logout(props) {
+    localStorage.removeItem(props);
     notification("success", "Logged Out SuccessFully");
     history.push("/signin");
   }
