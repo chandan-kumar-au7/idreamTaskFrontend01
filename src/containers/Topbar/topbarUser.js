@@ -35,6 +35,7 @@ class TopbarUser extends Component {
   };
 
   componentDidMount() {
+    // if (this.props.userData !== undefined) {
     setTimeout(() => {
       this.setState({
         userImage: this.props.userData.imageUrl,
@@ -42,10 +43,11 @@ class TopbarUser extends Component {
         userName: this.props.userData.name,
       });
     }, 2000);
+    // }
   }
 
   render() {
-    // console.log("this.props.123 ", this.props);
+    console.log("this.props in topbar.js", this.props);
     const content = (
       <TopbarDropdown style={{ width: "auto" }}>
         <UserInformation>

@@ -10,6 +10,7 @@ import Firebase from "../../../helpers/firebase";
 import FirebaseLogin from "../../../components/firebase";
 import Auth0 from "../../../helpers/auth0";
 import { notification } from "../../../components";
+import history from "../../../helpers/auth0/history";
 
 import axios from "axios";
 
@@ -19,6 +20,7 @@ import axios from "axios";
 import { GoogleLogin } from "react-google-login";
 
 let returnedData;
+let returnedData1;
 
 const { loggedInUserData } = authAction;
 
@@ -43,16 +45,32 @@ class SignIn extends Component {
         // console.log("_/signin_Page ===>>> ", this.props);
         Auth0.handleAuthentication(returnedData.data.Logintoken);
         this.props.loggedInUserData(returnedData.data);
+      } else if (returnedData.data.message === "User Logged In SuccessFully") {
+        this.responseGoogle = async (response) => {
+          try {
+            returnedData1 = await axios({
+              method: "post",
+              url: "http://localhost:4000/user/googlelogin",
+              data: response,
+            });
+            if (returnedData1.data.Logintoken) {
+              this.props.loggedInUserData(returnedData.data);
+              Auth0.handleAuthentication(returnedData.data.Logintoken);
+              history.push("/dashboard");
+            }
+          } catch (error) {
+            console.log("Error while requesting backend => ", error.message);
+          }
+        };
+        // getting error if token got experied
+        // refreshTokenSetup(response);
+
+        setTimeout(() => {
+          this.state.success = null;
+        }, 10000);
       }
-
-      // getting error if token got experied
-      // refreshTokenSetup(response);
-
-      setTimeout(() => {
-        this.state.success = null;
-      }, 10000);
     } catch (error) {
-      // console.log("Error while requesting backend => ", error.message);
+      console.log("Error while requesting backend => ", error.message);
 
       this.error = error.message;
       notification("error", error.message);

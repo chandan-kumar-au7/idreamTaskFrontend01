@@ -23,7 +23,7 @@ class Auth0Helper {
   logout(props) {
     localStorage.removeItem(props);
     notification("success", "Logged Out SuccessFully");
-    history.push("/signin");
+    history.push("/");
   }
 
   isAuthenticated() {

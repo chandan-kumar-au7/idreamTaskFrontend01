@@ -9,23 +9,84 @@ const Statistics = (props) => {
   const history = useHistory();
 
   const [Day, setDay] = useState(null);
-  const [zeroToTwentyfive, setzeroToTwentyfive] = useState(null);
-  const [twentyfiveToFifty, settwentyfiveToFifty] = useState(null);
-  const [fiftyToSeventyfive, setfiftyToSeventyfive] = useState(null);
-  const [seventyfiveToOnehundred, setseventyfiveToOnehundred] = useState(null);
+  const [zeroToTwentyfive, setzeroToTwentyfive] = useState(0);
+  const [twentyfiveToFifty, settwentyfiveToFifty] = useState(0);
+  const [fiftyToSeventyfive, setfiftyToSeventyfive] = useState(0);
+  const [seventyfiveToOnehundred, setseventyfiveToOnehundred] = useState(0);
 
+  const { title, description, stretched } = props;
+  const { Clicked, From, To } = props;
   let PERDAYBYDATE = [];
-  let DAU = [];
-  let RU = [];
-  let NUC = [];
+
+  let zero = 0;
+  let twentyfive = 0;
+  let seventyfive = 0;
+  let hundred = 0;
+
+  useEffect(() => {
+    // console.log("Day ==>> ", Day);
+
+    try {
+      findDau(From, To).then((dauData) => {
+        // console.log("DAU in statistics ==>> ", dauData);
+
+        for (const dataObj of dauData.data) {
+          // console.log("DAU in statistics ==>> ", dataObj);
+
+          PERDAYBYDATE.push(parseInt(dataObj.day));
+
+          zero = zero + parseInt(dataObj.ZeroToTwentyFive);
+          // console.log("zero ", parseInt(dataObj.ZeroToTwentyFive));
+
+          twentyfive = twentyfive + parseInt(dataObj.TwentyFiveToFifty);
+          // console.log("twentyfive ", dataObj.TwentyFiveToFifty);
+
+          seventyfive = seventyfive + parseInt(dataObj.FiftyToSeventyFive);
+          // console.log("seventyfive ", dataObj.FiftyToSeventyFive);
+
+          hundred = hundred + parseInt(dataObj.SeventyFiveToNintyNine);
+          // console.log("hundred ", parseInt(dataObj.SeventyFiveToNintyNine));
+        }
+
+        setDay(PERDAYBYDATE);
+
+        setzeroToTwentyfive(zero);
+        settwentyfiveToFifty(twentyfive);
+        setfiftyToSeventyfive(seventyfive);
+        setseventyfiveToOnehundred(hundred);
+
+        // setTimeout(() => {
+        //   console.log("2nd ===>>. ", Day);
+        // }, 1000);
+      });
+    } catch (error) {
+      console.log("err ----- ", error.message);
+      history.push("/");
+    }
+
+    // console.log(PERDAYBYDATE, DAU, RU, NUC);
+  }, [history, Clicked]);
 
   var data = {
     labels: ["0-25%", "25-50%", "50-75%", "75-100%"],
     datasets: [
       {
         label: "Daily_Active_User",
-        backgroundColor: "rgb(255, 99, 132)",
-        data: [78, 10, 34, 30, 20, 50, 70, 90],
+        backgroundColor: [
+          "#F00",
+          "#F80",
+          "#FF0",
+          "#0B0",
+          "#00F",
+          "#50F",
+          "#A0F",
+        ],
+        data: [
+          zeroToTwentyfive,
+          twentyfiveToFifty,
+          fiftyToSeventyfive,
+          seventyfiveToOnehundred,
+        ],
         stack: 1,
       },
     ],
@@ -45,35 +106,6 @@ const Statistics = (props) => {
       },
     },
   };
-
-  const { title, description, stretched } = props;
-  const { Clicked, From, To } = props;
-
-  useEffect(() => {
-    try {
-      findDau(From, To).then((dauData) => {
-        // console.log("DAU ==>> ", dauData);
-
-        for (const dataObj of dauData.data) {
-          PERDAYBYDATE.push(parseInt(dataObj.day));
-          DAU.push(parseInt(dataObj.engagement_count));
-          RU.push(parseInt(dataObj.referral_count));
-          NUC.push(parseInt(dataObj.new_user_count));
-        }
-
-        setDay(PERDAYBYDATE);
-        setzeroToTwentyfive(DAU);
-        settwentyfiveToFifty(RU);
-        setfiftyToSeventyfive(NUC);
-        setseventyfiveToOnehundred(NUC);
-      });
-    } catch (error) {
-      console.log("err ----- ", error.message);
-      // history.push("/");
-    }
-
-    // console.log(PERDAYBYDATE, DAU, RU, NUC);
-  }, [history, Clicked]);
 
   return (
     <WidgetBox title={title} description={description} stretched={stretched}>

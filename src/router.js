@@ -52,7 +52,7 @@ const PublicRoutes = ({
 
         history.push("/dashboard");
       } else {
-        history.push("/");
+        // history.push("/");
         notification("error", "You Need To LogIn Again");
       }
     })();
