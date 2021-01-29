@@ -70,7 +70,7 @@ class App extends Component {
       scrollHeight,
       fixedNavbar,
       view,
-      haveToRerender,
+      // haveToRerender,
     } = this.props;
 
     const { url } = match;
@@ -136,7 +136,7 @@ const mapStateToProps = (state) => {
     scrollHeight: state.App.scrollHeight, // toJs()
     fixedNavbar: state.App.fixedNavbar,
     view: state.App.view,
-    haveToRerender: state.dashboard.haveToRerender,
+    // haveToRerender: state.dashboard.haveToRerender,
   };
 };
 const appConect = connect(mapStateToProps, {

@@ -8,7 +8,7 @@ import { findDau } from "../../../utils/findDau";
 const Statistics = (props) => {
   const history = useHistory();
 
-  const [Day, setDay] = useState(null);
+  // const [Day, setDay] = useState(null);
   const [zeroToTwentyfive, setzeroToTwentyfive] = useState(0);
   const [twentyfiveToFifty, settwentyfiveToFifty] = useState(0);
   const [fiftyToSeventyfive, setfiftyToSeventyfive] = useState(0);
@@ -16,7 +16,7 @@ const Statistics = (props) => {
 
   const { title, description, stretched } = props;
   const { Clicked, From, To } = props;
-  let PERDAYBYDATE = [];
+  // let PERDAYBYDATE = [];
 
   let zero = 0;
   let twentyfive = 0;
@@ -33,7 +33,7 @@ const Statistics = (props) => {
         for (const dataObj of dauData.data) {
           // console.log("DAU in statistics ==>> ", dataObj);
 
-          PERDAYBYDATE.push(parseInt(dataObj.day));
+          // PERDAYBYDATE.push(parseInt(dataObj.day));
 
           zero = zero + parseInt(dataObj.ZeroToTwentyFive);
           // console.log("zero ", parseInt(dataObj.ZeroToTwentyFive));
@@ -48,7 +48,7 @@ const Statistics = (props) => {
           // console.log("hundred ", parseInt(dataObj.SeventyFiveToNintyNine));
         }
 
-        setDay(PERDAYBYDATE);
+        // setDay(PERDAYBYDATE);
 
         setzeroToTwentyfive(zero);
         settwentyfiveToFifty(twentyfive);
