@@ -33,13 +33,20 @@ import AlignLeft, {
 import { FormControl } from "../UiElements/TextFields/textfield.style";
 
 const Widget = () => {
+  let sevenDayBeforeDate = moment()._d;
+  sevenDayBeforeDate = new Date(
+    sevenDayBeforeDate.setDate(sevenDayBeforeDate.getDate() - 6)
+  );
+
   const [Clicked, setClicked] = useState(false);
-  const [selectedDateFrom, setselectedDateFrom] = useState(moment());
+  const [selectedDateFrom, setselectedDateFrom] = useState(sevenDayBeforeDate);
   const [selectedDateTo, setselectedDateTo] = useState(moment());
 
   const handleFromDateChange = (date) => {
-    // console.log("DAte ==>. ", date._d.toISOString());
+    // console.log("DAte ==>. ", moment()._d);
+
     setselectedDateFrom(date._d.toISOString());
+
     // console.log("selectedDateFrom ", selectedDateFrom);
   };
 
