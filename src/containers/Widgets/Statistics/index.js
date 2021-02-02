@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
 import WidgetBox from "../WidgetBox";
@@ -18,10 +18,10 @@ const Statistics = (props) => {
   const { Clicked, From, To } = props;
   // let PERDAYBYDATE = [];
 
-  let zero = 0;
-  let twentyfive = 0;
-  let seventyfive = 0;
-  let hundred = 0;
+  let zero = useRef(0);
+  let twentyfive = useRef(0);
+  let seventyfive = useRef(0);
+  let hundred = useRef(0);
 
   useEffect(() => {
     // console.log("Day ==>> ", Day);
@@ -35,25 +35,25 @@ const Statistics = (props) => {
 
           // PERDAYBYDATE.push(parseInt(dataObj.day));
 
-          zero = zero + parseInt(dataObj.ZeroToTwentyFive);
+          zero.current += parseInt(dataObj.ZeroToTwentyFive);
           // console.log("zero ", parseInt(dataObj.ZeroToTwentyFive));
 
-          twentyfive = twentyfive + parseInt(dataObj.TwentyFiveToFifty);
+          twentyfive.current += parseInt(dataObj.TwentyFiveToFifty);
           // console.log("twentyfive ", dataObj.TwentyFiveToFifty);
 
-          seventyfive = seventyfive + parseInt(dataObj.FiftyToSeventyFive);
+          seventyfive.current += parseInt(dataObj.FiftyToSeventyFive);
           // console.log("seventyfive ", dataObj.FiftyToSeventyFive);
 
-          hundred = hundred + parseInt(dataObj.SeventyFiveToNintyNine);
+          hundred.current += parseInt(dataObj.SeventyFiveToNintyNine);
           // console.log("hundred ", parseInt(dataObj.SeventyFiveToNintyNine));
         }
 
         // setDay(PERDAYBYDATE);
 
-        setzeroToTwentyfive(zero);
-        settwentyfiveToFifty(twentyfive);
-        setfiftyToSeventyfive(seventyfive);
-        setseventyfiveToOnehundred(hundred);
+        setzeroToTwentyfive(zero.current);
+        settwentyfiveToFifty(twentyfive.current);
+        setfiftyToSeventyfive(seventyfive.current);
+        setseventyfiveToOnehundred(hundred.current);
 
         // setTimeout(() => {
         //   console.log("2nd ===>>. ", Day);
@@ -65,7 +65,7 @@ const Statistics = (props) => {
     }
 
     // console.log(PERDAYBYDATE, DAU, RU, NUC);
-  }, [history, Clicked]);
+  }, [history, Clicked, From, To]);
 
   var data = {
     labels: ["0-25%", "25-50%", "50-75%", "75-100%"],

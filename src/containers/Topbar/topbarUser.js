@@ -24,6 +24,27 @@ class TopbarUser extends Component {
     userEmail: "",
     userName: "",
   };
+
+  componentDidMount() {
+    console.log("this.props in topbar.js", this.props);
+
+    if (this.props.userData === undefined) {
+      setTimeout(() => {
+
+        if (this.props.userData !== undefined) {
+          this.setState({
+
+            userImage: this.props.userData.imageUrl,
+            userEmail: this.props.userData.email,
+            userName: this.props.userData.name,
+          });
+        }
+      }, 2000);
+
+
+    }
+  }
+
   hide = () => {
     this.setState({ visible: false });
   };
@@ -34,40 +55,27 @@ class TopbarUser extends Component {
     });
   };
 
-  componentDidMount() {
-    // if (this.props.userData !== undefined) {
-    setTimeout(() => {
-      this.setState({
-        userImage: this.props.userData.imageUrl,
-        userEmail: this.props.userData.email,
-        userName: this.props.userData.name,
-      });
-    }, 2000);
-    // }
-  }
-
   render() {
-    console.log("this.props in topbar.js", this.props);
     const content = (
       <TopbarDropdown style={{ width: "auto" }}>
         <UserInformation>
           <div className="userImage">
-            {this.state.userImage === "" ? (
+            {!this.state.userImage ? (
               <img src={Image} alt="user" />
             ) : (
-              <img src={this.state.userImage} alt="user" />
-            )}
+                <img src={this.state.userImage} alt="user" />
+              )}
           </div>
 
           <div className="userDetails">
             {this.state.userEmail === "" ? (
               <h3>{"Hello User"}</h3>
             ) : (
-              <>
-                <p>{this.state.userName}</p>
-                <h3>{this.state.userEmail}</h3>
-              </>
-            )}
+                <>
+                  <p>{this.state.userName}</p>
+                  <h3>{this.state.userEmail}</h3>
+                </>
+              )}
           </div>
         </UserInformation>
 
@@ -103,8 +111,8 @@ class TopbarUser extends Component {
             {this.state.userImage === "" ? (
               <img src={Image} alt="user" />
             ) : (
-              <img src={this.state.userImage} alt="user" />
-            )}
+                <img src={this.state.userImage} alt="user" />
+              )}
           </div>
         </IconButtons>
 

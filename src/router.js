@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./containers/App";
 import Auth0 from "./helpers/auth0";
-import { notification } from "./components";
+// import { notification } from "./components";
 import dashboardAction from "./redux/dashboard/actions";
 import authAction from "./redux/auth/actions";
 
@@ -21,13 +21,13 @@ const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
       isLoggedIn ? (
         <Component {...props} />
       ) : (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: { from: props.location },
-          }}
-        />
-      )
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location },
+            }}
+          />
+        )
     }
   />
 );
@@ -41,22 +41,27 @@ const PublicRoutes = ({
   useEffect(() => {
     (async function () {
       const varified = await varifyToken();
-      // console.log("varified ", varified);
-      if (
-        isLoggedIn === true &&
-        varified.data !== "invalid token" &&
-        varified.data !== "jwt expired"
-      ) {
-        haveToRerender(true);
-        loggedInUserData(varified.data.data);
+      console.log("varified01 ", varified);
 
-        history.push("/dashboard");
-      } else {
-        // history.push("/");
-        notification("error", "You Need To LogIn Again");
+      if (!varified.data.error) {
+        if (
+          isLoggedIn === true &&
+          varified.data !== "invalid token" &&
+          varified.data !== "jwt malformed" &&
+          varified.data !== "jwt expired"
+        ) {
+          haveToRerender(true);
+          loggedInUserData(varified.data.data);
+
+          history.push("/dashboard");
+          // } else {
+          //   // history.push("/");
+          //   notification("error", "You Need To LogIn Again");
+        }
+
       }
     })();
-  }, [history, isLoggedIn]);
+  }, [history, isLoggedIn, haveToRerender, loggedInUserData]);
   return (
     <BrowserRouter>
       <>

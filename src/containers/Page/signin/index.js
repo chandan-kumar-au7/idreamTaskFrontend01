@@ -10,7 +10,7 @@ import Firebase from "../../../helpers/firebase";
 import FirebaseLogin from "../../../components/firebase";
 import Auth0 from "../../../helpers/auth0";
 import { notification } from "../../../components";
-import history from "../../../helpers/auth0/history";
+// import history from "../../../helpers/auth0/history";
 
 import axios from "axios";
 
@@ -40,23 +40,26 @@ class SignIn extends Component {
         url: "http://localhost:4000/user/googlelogin",
         data: response,
       });
+      console.log("returnedData_/signin_Page ===>>> ", returnedData);
       if (returnedData.data.Logintoken) {
-        console.log("returnedData_/signin_Page ===>>> ", returnedData);
-        // console.log("_/signin_Page ===>>> ", this.props);
+        console.log("_/signin_Page ===>>> ", this.props);
         Auth0.handleAuthentication(returnedData.data.Logintoken);
         this.props.loggedInUserData(returnedData.data);
       } else if (returnedData.data.message === "User Logged In SuccessFully") {
         this.responseGoogle = async (response) => {
           try {
+            console.log("1")
             returnedData1 = await axios({
               method: "post",
               url: "http://localhost:4000/user/googlelogin",
               data: response,
             });
             if (returnedData1.data.Logintoken) {
-              this.props.loggedInUserData(returnedData.data);
-              Auth0.handleAuthentication(returnedData.data.Logintoken);
-              history.push("/dashboard");
+              console.log("2")
+
+              this.props.loggedInUserData(returnedData1.data);
+              Auth0.handleAuthentication(returnedData1.data.Logintoken);
+              // history.push("/dashboard");
             }
           } catch (error) {
             console.log("Error while requesting backend => ", error.message);
@@ -67,7 +70,7 @@ class SignIn extends Component {
 
         setTimeout(() => {
           this.state.success = null;
-        }, 10000);
+        }, 1000);
       }
     } catch (error) {
       console.log("Error while requesting backend => ", error.message);
@@ -77,7 +80,7 @@ class SignIn extends Component {
 
       setTimeout(() => {
         this.state.error = null;
-      }, 10000);
+      }, 1000);
     }
   };
 
